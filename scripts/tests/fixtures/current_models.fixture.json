@@ -1,0 +1,32 @@
+[
+  {
+    "id": "anthropic/claude-3.5-sonnet",
+    "name": "Claude 3.5 Sonnet",
+    "description": "Claude 3.5 Sonnet is a strong model.",
+    "context_length": 200000,
+    "architecture": {"modality": "text+image->text", "input_modalities": ["text", "image"], "output_modalities": ["text"]},
+    "pricing": {"prompt": "0.00001", "completion": "0.000015", "request": "0"},
+    "supported_parameters": ["temperature", "top_p", "max_tokens", "reasoning"],
+    "hugging_face_id": "anthropic/claude-3.5-sonnet"
+  },
+  {
+    "id": "openai/gpt-4o",
+    "name": "GPT-4o",
+    "description": "GPT-4o is a multimodal model.",
+    "context_length": 128000,
+    "architecture": {"modality": "text+image->text", "input_modalities": ["text", "image"], "output_modalities": ["text"]},
+    "pricing": {"prompt": "0.000005", "completion": "0.000015", "request": "0"},
+    "supported_parameters": ["temperature", "top_p", "max_tokens"],
+    "hugging_face_id": null
+  },
+  {
+    "id": "qwen/qwen3-235b-a22b",
+    "name": "Qwen3-235B-A22B",
+    "description": "Qwen3 is a new MoE model.",
+    "context_length": 128000,
+    "architecture": {"modality": "text->text", "input_modalities": ["text"], "output_modalities": ["text"]},
+    "pricing": {"prompt": "0.0002", "completion": "0.0006", "request": "0"},
+    "supported_parameters": ["temperature", "top_p", "max_tokens"],
+    "hugging_face_id": "Qwen/Qwen3-235B-A22B"
+  }
+]

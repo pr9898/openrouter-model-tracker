@@ -1,0 +1,61 @@
+# 备选 PR 模式 workflow
+#
+# 与 check-models.yml 区别在于:不直接 push 到 main,而是开一个 PR,
+# 适合多人协作场景(自动状态文件也走评审)。
+#
+# 使用方法:
+#   1. 把本文件重命名为 check-models.yml(或保留两份),删除主文件里的 commit step
+#   2. 在仓库 Settings → Actions → General → Workflow permissions
+#      勾选 "Allow GitHub Actions to create and approve pull requests"
+#   3. 也可改用 secrets.PAT(需 repo scope)绕过限制
+#
+# 注意: peter-evans/create-pull-request 默认基于 GITHUB_TOKEN,对新仓库需上述权限。
+
+name: Check OpenRouter Models (PR mode)
+
+on:
+  schedule:
+    - cron: '0 0 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+concurrency:
+  group: openrouter-check-pr
+  cancel-in-progress: false
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+      - run: pip install -r requirements.txt
+      - name: Run check
+        env:
+          OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
+          WECHAT_WEBHOOK_KEY: ${{ secrets.WECHAT_WEBHOOK_KEY }}
+          HF_TOKEN: ${{ secrets.HF_TOKEN }}
+          PYTHONUNBUFFERED: '1'
+        run: python scripts/check_openrouter_models.py --log-file
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v6
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: 'chore: update known_models.json [skip ci]'
+          title: 'Auto: OpenRouter 模型状态更新'
+          body: |
+            - 触发: ${{ github.event_name }}
+            - 时间: ${{ github.event.repository.updated_at }}
+            - 详情见 logs/reports/ 下当日 JSON
+          branch: openrouter-auto-update
+          delete-branch: true
+          add-paths: |
+            known_models.json
+            logs/reports/

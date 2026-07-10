@@ -1,0 +1,134 @@
+name: Check OpenRouter Models
+
+on:
+  # 每天 UTC 0:00 = 北京时间 8:00
+  schedule:
+    - cron: '0 0 * * *'
+  # 手动触发
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: 'Dry run (no state write, no notify)'
+        required: false
+        type: boolean
+        default: false
+      only_check:
+        description: 'Skip WeChat notification (commit state only)'
+        required: false
+        type: boolean
+        default: false
+      refresh_zh:
+        description: 'Force re-fetch HuggingFace Chinese descriptions'
+        required: false
+        type: boolean
+        default: false
+
+# 仓库创建于 2023-02 之后默认 token 只读,必须显式声明
+permissions:
+  contents: write
+  pull-requests: write
+
+concurrency:
+  group: openrouter-check
+  cancel-in-progress: false  # 排队不取消,避免状态竞争
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15   # 357 模型并发抓 HF + diff + notify,留足冗余
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          python -c "import requests, urllib3; print('deps OK')"
+
+      - name: Show known model count
+        run: |
+          if [ -f known_models.json ]; then
+            echo "Known models: $(python -c "import json;print(len(json.load(open('known_models.json')).get('models',{})))")"
+            echo "Last check: $(python -c "import json;print(json.load(open('known_models.json')).get('last_check'))")"
+          else
+            echo "Known models: 0 (首次运行)"
+          fi
+
+      - name: Run check
+        env:
+          OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
+          WECHAT_WEBHOOK_KEY: ${{ secrets.WECHAT_WEBHOOK_KEY }}
+          HF_TOKEN: ${{ secrets.HF_TOKEN }}
+          PYTHONUNBUFFERED: '1'
+        run: |
+          ARGS=(--log-file)
+          if [ "${{ github.event.inputs.dry_run }}" = "true" ]; then
+            ARGS+=(--dry-run)
+          fi
+          if [ "${{ github.event.inputs.only_check }}" = "true" ]; then
+            ARGS+=(--quiet)
+          fi
+          if [ "${{ github.event.inputs.refresh_zh }}" = "true" ]; then
+            ARGS+=(--refresh-zh)
+          fi
+          python scripts/check_openrouter_models.py "${ARGS[@]}"
+
+      - name: Generate step summary
+        if: always()
+        run: |
+          if [ -f logs/check_openrouter_models.log ]; then
+            echo "## 检测日志(末 50 行)" >> "$GITHUB_STEP_SUMMARY"
+            echo '```' >> "$GITHUB_STEP_SUMMARY"
+            tail -50 logs/check_openrouter_models.log >> "$GITHUB_STEP_SUMMARY"
+            echo '```' >> "$GITHUB_STEP_SUMMARY"
+          fi
+
+      - name: Commit state changes
+        if: ${{ github.event.inputs.dry_run != 'true' }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          if git diff --quiet known_models.json 2>/dev/null; then
+            echo "No changes to known_models.json"
+            exit 0
+          fi
+
+          MSG="chore: update known_models.json [skip ci]"
+          if [ -f logs/reports/$(date -u +%Y-%m-%d).json ]; then
+            SUMMARY=$(python -c "
+          import json,glob,os
+          d='logs/reports/$(date -u +%Y-%m-%d).json'
+          try:
+            data=json.load(open(d))
+            last=data[-1]
+            print(f\"{len(last.get('new',[]))} new, {len(last.get('removed',[]))} removed, {len(last.get('changed',[]))} changed\")
+          except Exception:
+            print('')
+          ")
+            if [ -n "$SUMMARY" ]; then
+              MSG="chore: update known_models.json ($SUMMARY) [skip ci]"
+            fi
+          fi
+          git add known_models.json
+          git commit -m "$MSG"
+          git push
+
+      - name: Upload logs artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: openrouter-check-logs
+          path: |
+            logs/
+          retention-days: 14

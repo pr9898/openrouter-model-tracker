@@ -1,0 +1,44 @@
+{
+  "models": {
+    "anthropic/claude-3.5-sonnet": {
+      "first_seen": "2026-06-01T00:00:00",
+      "data": {
+        "id": "anthropic/claude-3.5-sonnet",
+        "name": "Claude 3.5 Sonnet",
+        "description": "Claude 3.5 Sonnet is a strong model.",
+        "context_length": 200000,
+        "architecture": {"modality": "text+image->text", "input_modalities": ["text", "image"], "output_modalities": ["text"]},
+        "pricing": {"prompt": "0.000003", "completion": "0.000015", "request": "0"},
+        "supported_parameters": ["temperature", "top_p", "max_tokens", "reasoning"],
+        "hugging_face_id": "anthropic/claude-3.5-sonnet"
+      }
+    },
+    "openai/gpt-4o": {
+      "first_seen": "2026-06-01T00:00:00",
+      "data": {
+        "id": "openai/gpt-4o",
+        "name": "GPT-4o",
+        "description": "GPT-4o is a multimodal model.",
+        "context_length": 128000,
+        "architecture": {"modality": "text+image->text", "input_modalities": ["text", "image"], "output_modalities": ["text"]},
+        "pricing": {"prompt": "0.000005", "completion": "0.000015", "request": "0"},
+        "supported_parameters": ["temperature", "top_p", "max_tokens"],
+        "hugging_face_id": null
+      }
+    },
+    "meta-llama/llama-3.3-70b-instruct": {
+      "first_seen": "2026-06-01T00:00:00",
+      "data": {
+        "id": "meta-llama/llama-3.3-70b-instruct",
+        "name": "Llama 3.3 70B Instruct",
+        "description": "Llama 3.3 70B is an open model.",
+        "context_length": 128000,
+        "architecture": {"modality": "text->text", "input_modalities": ["text"], "output_modalities": ["text"]},
+        "pricing": {"prompt": "0.0000006", "completion": "0.0000006", "request": "0"},
+        "supported_parameters": ["temperature", "top_p", "max_tokens"],
+        "hugging_face_id": "meta-llama/Llama-3.3-70B-Instruct"
+      }
+    }
+  },
+  "last_check": "2026-06-01T00:00:00"
+}
