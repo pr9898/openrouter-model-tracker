@@ -140,28 +140,40 @@ def get_zh_description(
     *,
     hf_token: str | None = None,
     now_iso: str = "",
+    source: str | None = "official",
 ) -> HfCard:
     """主入口:抓取并提取中文介绍,带 fallback。
 
     fallback 链:hf-readme → openrouter-description → none
+    ``source`` 指定 HF 源("official"/"hf-mirror"/None 跳过联网)。
     """
     fetched_at = now_iso or time.strftime("%Y-%m-%dT%H:%M:%S")
 
-    # 没有 repo_id,直接用 OpenRouter description
-    if not hf_repo_id:
+    # 没有 repo_id 或跳过联网,直接用 OpenRouter description
+    if source is None or not hf_repo_id:
         repo = parse_openrouter_id(model_id)
-        hf_repo_id = "/".join(repo) if repo else None
-    if not hf_repo_id:
-        text = (openrouter_description or "").strip()
-        return HfCard(
-            text=text,
-            source="openrouter-description" if text else "none",
-            language="en" if text else "unknown",
-            fetched_at=fetched_at,
-        )
+        resolved = hf_repo_id or ("/".join(repo) if repo else None)
+        if not resolved:
+            text = (openrouter_description or "").strip()
+            return HfCard(
+                text=text,
+                source="openrouter-description" if text else "none",
+                language="en" if text else "unknown",
+                fetched_at=fetched_at,
+            )
+        if source is None:
+            text = (openrouter_description or "").strip()
+            return HfCard(
+                text=text,
+                source="openrouter-description" if text else "none",
+                language="en" if text else "unknown",
+                fetched_at=fetched_at,
+            )
 
     try:
-        readme = fetch_hf_readme(session, hf_repo_id, hf_token=hf_token)
+        readme = fetch_hf_readme(
+            session, hf_repo_id, hf_token=hf_token, source=source
+        )
     except RateLimitError as e:
         logger.warning("[hf_card] %s 频率限制,fallback 到 OR 描述: %s", model_id, e)
         text = (openrouter_description or "").strip()
@@ -203,10 +215,12 @@ def batch_fetch_cards(
     per_request_sleep: float = _PER_REQUEST_SLEEP,
     hf_token: str | None = None,
     timeout_per_req: int = 15,
+    source: str | None = "official",
 ) -> dict[str, HfCard]:
     """并发抓取中文介绍,信号量限流。
 
     ``items``: [(model_id, hf_repo_id, openrouter_description), ...]
+    ``source``: HF 源("official"/"hf-mirror"/None 跳过联网)。
     返回 {model_id: HfCard}。单个失败不影响整体。
     """
     session = create_retry_session()
@@ -223,7 +237,7 @@ def batch_fetch_cards(
                 time.sleep(sleep)
         card = get_zh_description(
             model_id, hf_repo_id, desc, session,
-            hf_token=hf_token,
+            hf_token=hf_token, source=source,
         )
         time.sleep(per_request_sleep)
         return model_id, card

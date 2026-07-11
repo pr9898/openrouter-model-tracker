@@ -8,7 +8,12 @@ import sys
 import time
 from typing import Any
 
-from .api import CheckerError, create_retry_session, fetch_openrouter_models
+from .api import (
+    CheckerError,
+    check_hf_reachable,
+    create_retry_session,
+    fetch_openrouter_models,
+)
 from .config import (
     LOG_DIR,
     PROJECT_DIR,
@@ -131,8 +136,26 @@ def _fetch_zh_if_needed(
 
     if not items:
         return {}
-    logger.info("[zh] 需抓取中文介绍 %d 个模型", len(items))
-    cards = batch_fetch_cards(items, hf_token=hf_token)
+
+    # 探测 HuggingFace 源连通性:官方优先,不通则回退中国镜像,都不通跳过联网
+    source, source_desc = check_hf_reachable(session)
+    if source is None:
+        logger.warning(
+            "[zh] HuggingFace 官方与镜像源均不可达,本批 %d 个模型回退英文描述",
+            len(items),
+        )
+        # 仍更新 fetched_at,避免每次运行都重探测浪费时间
+        updates: dict[str, dict] = {}
+        for mid, _, desc in items:
+            updates[mid] = {
+                "zh_description": (desc or "").strip(),
+                "zh_source": "openrouter-description" if desc else "none",
+                "zh_fetched_at": now_iso,
+            }
+        return updates
+
+    logger.info("[zh] 使用 HF 源: %s,需抓取 %d 个模型", source_desc, len(items))
+    cards = batch_fetch_cards(items, hf_token=hf_token, source=source)
     updates: dict[str, dict] = {}
     for mid, card in cards.items():
         if card.text:

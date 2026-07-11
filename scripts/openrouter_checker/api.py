@@ -17,6 +17,18 @@ logger = logging.getLogger("openrouter_checker.api")
 HF_README_URL = "https://huggingface.co/{repo_id}/raw/main/README.md"
 HF_API_URL = "https://huggingface.co/api/models/{repo_id}"
 
+# 中国镜像源(官方源不通时回退)
+HF_MIRROR_README_URL = "https://hf-mirror.com/{repo_id}/raw/main/README.md"
+HF_MIRROR_API_URL = "https://hf-mirror.com/api/models/{repo_id}"
+
+# 探测时尝试的源顺序(官方优先,镜像兜底)
+HF_SOURCES = (
+    ("official", HF_README_URL, HF_API_URL),
+    ("hf-mirror", HF_MIRROR_README_URL, HF_MIRROR_API_URL),
+)
+
+HF_PROBE_REPO = "meta-llama/Llama-3.3-70B-Instruct"
+
 
 class CheckerError(Exception):
     """基础异常,所有致命错误使用此类。"""
@@ -105,6 +117,30 @@ def _hf_headers(hf_token: str | None) -> dict[str, str]:
     return headers
 
 
+def check_hf_reachable(
+    session: requests.Session,
+    *,
+    probe_repo: str = HF_PROBE_REPO,
+    timeout: int = 10,
+) -> tuple[str | None, str]:
+    """探测 HuggingFace 源连通性,返回 (可用源名, 可读描述)。
+
+    顺序:官方 huggingface.co → 中国镜像 hf-mirror.com。
+    都不通返回 (None, 说明)。
+    """
+    for name, readme_url, api_url in HF_SOURCES:
+        url = readme_url.format(repo_id=probe_repo)
+        try:
+            resp = session.get(url, headers=_hf_headers(None), timeout=timeout)
+        except requests.exceptions.RequestException as e:
+            logger.debug("[hf-probe] %s 源不可达: %s", name, e)
+            continue
+        # 任何能返回(含 404)都说明网络层通
+        logger.info("[hf-probe] %s 源可达 (HTTP %d)", name, resp.status_code)
+        return name, name
+    return None, "官方与镜像源均不可达"
+
+
 def fetch_hf_readme(
     session: requests.Session,
     repo_id: str,
@@ -112,14 +148,23 @@ def fetch_hf_readme(
     timeout: int = 15,
     max_retries: int = 2,
     hf_token: str | None = None,
+    source: str | None = "official",
 ) -> str | None:
     """抓取 HuggingFace 模型卡 README 原文。
 
     - 404: 返回 None(模型卡不存在)
     - 429: 抛 RateLimitError,触发调用方指数退避
     - 200: 返回文本
+
+    ``source`` 指定使用的源("official" / "hf-mirror" / None 表示跳过联网)。
     """
-    url = HF_README_URL.format(repo_id=repo_id)
+    if source is None:
+        return None
+
+    readme_url = dict(
+        (name, ru) for name, ru, _ in HF_SOURCES
+    ).get(source, HF_README_URL)
+    url = readme_url.format(repo_id=repo_id)
     headers = _hf_headers(hf_token)
 
     for attempt in range(max_retries + 1):
