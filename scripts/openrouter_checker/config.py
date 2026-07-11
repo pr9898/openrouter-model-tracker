@@ -61,11 +61,16 @@ def get_env(
     default: str = "",
     dotenv_vars: dict[str, str] | None = None,
 ) -> str:
-    """获取环境变量值。优先级：os.environ > .env 文件 > default。"""
+    """获取环境变量值。优先级：os.environ > .env 文件 > default。
+
+    所有来源的值都会 ``strip()``,避免 Secret / 环境变量里混入的换行符或
+    首尾空格污染 HTTP 请求头(如 ``Authorization: Bearer <脏值>`` 触发
+    ``Invalid ... header value``)。
+    """
     if key in os.environ:
-        return os.environ[key]
+        return os.environ[key].strip()
     if dotenv_vars and key in dotenv_vars:
-        return dotenv_vars[key]
+        return dotenv_vars[key].strip()
     return default
 
 
