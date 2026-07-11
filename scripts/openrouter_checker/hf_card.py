@@ -26,10 +26,16 @@ _YAML_FENCE_RE = re.compile(r"^---\s*$", re.MULTILINE)
 _HTML_TAG_RE = re.compile(r"<[^>]+>")
 _MARKDOWN_LINK_RE = re.compile(r"\[([^\]]+)\]\([^)]*\)")
 _SPLIT_PARA_RE = re.compile(r"\n\s*\n")
+# 围栏代码块(``` 或 ~~~,可带语言标记),跨行匹配
+_CODE_FENCE_RE = re.compile(r"^[ \t]*(`{3,}|~{3,}).*?^[ \t]*\1[ \t]*$", re.DOTALL | re.MULTILINE)
+# 整段以 HTML 块级标签开头的容器(<div>/<p>/<table> 等,多为 badge/图标)
+_HTML_BLOCK_RE = re.compile(r"^\s*<(?:div|p|table|section|figure|center)\b", re.IGNORECASE)
 
 MAX_ZH_CHARS = 300
 MIN_ZH_CHARS = 30
 SAMPLE_CHARS = 5000
+# 选中段落的中文字符占比门槛:低于此值视为「夹带中文碎片的英文/代码」,不采用
+MIN_ZH_RATIO = 0.3
 
 # 单 worker 完成后 sleep,控制请求节奏(5 worker × 0.2s ≈ 1 req/s)
 _PER_REQUEST_SLEEP = 0.2
@@ -95,18 +101,27 @@ def extract_zh_description(
     *,
     max_chars: int = MAX_ZH_CHARS,
     min_zh_chars: int = MIN_ZH_CHARS,
+    min_zh_ratio: float = MIN_ZH_RATIO,
 ) -> str:
-    """从 README 提取第一段含中文的描述。
+    """从 README 提取第一段「以中文为主」的描述。
 
     1) 剥离 YAML frontmatter
-    2) 去 HTML 标签 / Markdown 链接
-    3) 按双换行分段,扫描每段(长度 < 30 或中文 < min_zh_chars 跳过)
-    4) 截断到 max_chars,在最近标点断句
+    2) 移除围栏代码块(``` / ~~~,常含系统提示/代码模板,非模型介绍)
+    3) 按 double 换行分段,跳过标题块与 HTML 容器块(badge/图标)
+    4) 去 HTML 标签 / Markdown 链接
+    5) 选首段满足:长度 ≥ 30、中文 ≥ min_zh_chars、且中文占比 ≥ min_zh_ratio
+       (占比门槛排除「夹带中文碎片的英文段落/代码模板」)
+    6) 截断到 max_chars,在最近标点断句
     """
     body = _strip_yaml_frontmatter(readme)
+    body = _CODE_FENCE_RE.sub("", body)
     paragraphs = [p.strip() for p in _SPLIT_PARA_RE.split(body)]
-    # 过滤掉纯标题块(单行且以 # 开头)
-    paragraphs = [p for p in paragraphs if not (len(p.splitlines()) == 1 and p.startswith("#"))]
+    # 过滤掉纯标题块(单行且以 # 开头)与 HTML 容器块
+    paragraphs = [
+        p for p in paragraphs
+        if not (len(p.splitlines()) == 1 and p.startswith("#"))
+        and not _HTML_BLOCK_RE.match(p)
+    ]
 
     for para in paragraphs:
         clean = _HTML_TAG_RE.sub("", para)
@@ -114,7 +129,13 @@ def extract_zh_description(
         clean = clean.strip()
         if len(clean) < 30:
             continue
-        if len(_ZH_CHAR_RE.findall(clean)) < min_zh_chars:
+        zh_count = len(_ZH_CHAR_RE.findall(clean))
+        if zh_count < min_zh_chars:
+            continue
+        latin_count = len(_LATIN_CHAR_RE.findall(clean))
+        total = zh_count + latin_count
+        if total and zh_count / total < min_zh_ratio:
+            # 中文占比不足,视为「夹中文碎片的英文/代码」,不采用
             continue
         # 截断
         if len(clean) > max_chars:
