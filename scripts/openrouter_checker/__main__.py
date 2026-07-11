@@ -34,6 +34,7 @@ from .storage import (
     needs_zh_refresh,
     save_known_models,
 )
+from .translate import TranslateConfig
 
 logger = logging.getLogger("openrouter_checker")
 
@@ -45,6 +46,16 @@ def run(args: argparse.Namespace) -> int:
     wechat_key = get_env("WECHAT_WEBHOOK_KEY", "", dotenv_vars)
     hf_token = get_env("HF_TOKEN", "", dotenv_vars)
     refresh_zh = args.refresh_zh or get_env_bool("REFRESH_ZH", False, dotenv_vars)
+
+    # LLM 翻译配置:HF README 无中文时,调 OpenRouter free 模型翻译英文描述
+    translate_cfg = TranslateConfig(
+        api_url=api_url,
+        api_key=api_key,
+        model=get_env("ZH_TRANSLATE_MODEL", "tencent/hy3:free", dotenv_vars),
+        enabled=get_env_bool("ZH_TRANSLATE_ENABLED", True, dotenv_vars),
+    )
+    if translate_cfg.enabled and not api_key:
+        logger.info("[zh] 未配置 OPENROUTER_API_KEY,LLM 翻译禁用,回退英文描述")
 
     current_time = time.strftime("%Y-%m-%dT%H:%M:%S")
     bj_time = time.strftime("%Y-%m-%d %H:%M:%S")
@@ -75,7 +86,7 @@ def run(args: argparse.Namespace) -> int:
 
             # 抓取中文介绍(仅需要刷新的)
             zh_updates = _fetch_zh_if_needed(
-                known, models, session, hf_token, refresh_zh
+                known, models, session, hf_token, refresh_zh, translate_cfg
             )
 
             # 合并状态
@@ -129,7 +140,7 @@ def run(args: argparse.Namespace) -> int:
 
 
 def _fetch_zh_if_needed(
-    known, models, session, hf_token, refresh_zh
+    known, models, session, hf_token, refresh_zh, translate_cfg=None
 ) -> dict[str, dict]:
     """收集需要抓中文介绍的模型,并发抓取。返回 {model_id: zh 缓存 dict}。"""
     now_ts = time.time()
@@ -165,7 +176,9 @@ def _fetch_zh_if_needed(
         return updates
 
     logger.info("[zh] 使用 HF 源: %s,需抓取 %d 个模型", source_desc, len(items))
-    cards = batch_fetch_cards(items, hf_token=hf_token, source=source)
+    cards = batch_fetch_cards(
+        items, hf_token=hf_token, source=source, translate=translate_cfg
+    )
     # hf_repo 是否为空,用于区分「本就无 HF 卡」与「抓取失败」
     has_repo = {mid: bool(repo) for mid, repo, _ in items}
     updates: dict[str, dict] = {}
@@ -173,9 +186,10 @@ def _fetch_zh_if_needed(
         # 长期缓存(写 zh_fetched_at,30 天内不重抓)的条件:
         # 1. 成功提取中文 README (hf-readme)
         # 2. README 抓到但无中文段落 (hf-readme-no-zh) —— 重抓也一样,无谓
-        # 3. 模型本就无 HF repo (hugging_face_id 为空) —— 无处可抓
+        # 3. LLM 翻译成功 (llm-translate) —— 已是中文,无需重翻
+        # 4. 模型本就无 HF repo (hugging_face_id 为空) —— 无处可抓
         # 其余(有 repo 但 README 抓取失败/不存在)不缓存,下次重试
-        cache = card.source in ("hf-readme", "hf-readme-no-zh") or not has_repo.get(
+        cache = card.source in ("hf-readme", "hf-readme-no-zh", "llm-translate") or not has_repo.get(
             mid, False
         )
         updates[mid] = {
