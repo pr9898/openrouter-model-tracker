@@ -7,8 +7,9 @@ from openrouter_checker.hf_card import get_zh_description
 
 
 class _FakeResp:
-    def __init__(self, status):
+    def __init__(self, status, text=""):
         self.status_code = status
+        self.text = text
 
 
 def test_check_hf_reachable_official_ok():

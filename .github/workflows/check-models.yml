@@ -3,22 +3,22 @@ name: Check OpenRouter Models
 on:
   # 每天 UTC 0:00 = 北京时间 8:00
   schedule:
-    - cron: '0 0 * * *'
+    - cron: "0 0 * * *"
   # 手动触发
   workflow_dispatch:
     inputs:
       dry_run:
-        description: 'Dry run (no state write, no notify)'
+        description: "Dry run (no state write, no notify)"
         required: false
         type: boolean
         default: false
       only_check:
-        description: 'Skip WeChat notification (commit state only)'
+        description: "Skip WeChat notification (commit state only)"
         required: false
         type: boolean
         default: false
       refresh_zh:
-        description: 'Force re-fetch HuggingFace Chinese descriptions'
+        description: "Force re-fetch HuggingFace Chinese descriptions"
         required: false
         type: boolean
         default: false
@@ -30,12 +30,12 @@ permissions:
 
 concurrency:
   group: openrouter-check
-  cancel-in-progress: false  # 排队不取消,避免状态竞争
+  cancel-in-progress: false # 排队不取消,避免状态竞争
 
 jobs:
   check:
     runs-on: ubuntu-latest
-    timeout-minutes: 15   # 357 模型并发抓 HF + diff + notify,留足冗余
+    timeout-minutes: 15 # 357 模型并发抓 HF + diff + notify,留足冗余
 
     steps:
       - name: Checkout
@@ -46,8 +46,8 @@ jobs:
       - name: Setup Python
         uses: actions/setup-python@v5
         with:
-          python-version: '3.11'
-          cache: 'pip'
+          python-version: "3.11"
+          cache: "pip"
 
       - name: Install dependencies
         run: |
@@ -69,7 +69,7 @@ jobs:
           OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
           WECHAT_WEBHOOK_KEY: ${{ secrets.WECHAT_WEBHOOK_KEY }}
           HF_TOKEN: ${{ secrets.HF_TOKEN }}
-          PYTHONUNBUFFERED: '1'
+          PYTHONUNBUFFERED: "1"
         run: |
           ARGS=(--log-file)
           if [ "${{ github.event.inputs.dry_run }}" = "true" ]; then

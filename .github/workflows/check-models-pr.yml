@@ -15,7 +15,7 @@ name: Check OpenRouter Models (PR mode)
 
 on:
   schedule:
-    - cron: '0 0 * * *'
+    - cron: "0 0 * * *"
   workflow_dispatch:
 
 permissions:
@@ -34,22 +34,22 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
-          python-version: '3.11'
-          cache: 'pip'
+          python-version: "3.11"
+          cache: "pip"
       - run: pip install -r requirements.txt
       - name: Run check
         env:
           OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
           WECHAT_WEBHOOK_KEY: ${{ secrets.WECHAT_WEBHOOK_KEY }}
           HF_TOKEN: ${{ secrets.HF_TOKEN }}
-          PYTHONUNBUFFERED: '1'
+          PYTHONUNBUFFERED: "1"
         run: python scripts/check_openrouter_models.py --log-file
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v6
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          commit-message: 'chore: update known_models.json [skip ci]'
-          title: 'Auto: OpenRouter 模型状态更新'
+          commit-message: "chore: update known_models.json [skip ci]"
+          title: "Auto: OpenRouter 模型状态更新"
           body: |
             - 触发: ${{ github.event_name }}
             - 时间: ${{ github.event.repository.updated_at }}

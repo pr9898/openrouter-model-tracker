@@ -5,6 +5,7 @@ from __future__ import annotations
 import logging
 import time
 from typing import Any
+from urllib.parse import parse_qs, urlparse
 
 import requests
 
@@ -14,6 +15,34 @@ logger = logging.getLogger("openrouter_checker.wechat")
 
 WECHAT_SAFE_BYTES = 4000
 PYTHON_RETRY_COUNT = 3
+
+_BASE = "https://qyapi.weixin.qq.com/cgi-bin/webhook/send"
+
+
+def _resolve_webhook_url(webhook_key: str) -> str:
+    """兼容多种输入形态,返回可用的完整 Webhook URL。
+
+    - 完整 URL(含 qyapi.weixin.qq.com):直接复用
+    - 含 key= 的字符串:提取 key 拼回标准地址
+    - 纯 key:拼成标准地址
+    """
+    if not webhook_key:
+        return ""
+    raw = webhook_key.strip()
+    # 已是完整 URL
+    if "qyapi.weixin.qq.com" in raw:
+        return raw
+    # 形如 https://.../send?key=xxxx 或 ...?key=xxxx
+    if "key=" in raw:
+        try:
+            qs = parse_qs(urlparse(raw).query)
+            key = qs.get("key", [None])[0]
+            if key:
+                return f"{_BASE}?key={key}"
+        except Exception:
+            pass
+    # 纯 key
+    return f"{_BASE}?key={raw}"
 
 
 def _check_wechat_response(resp_data: dict[str, Any]) -> bool:
@@ -30,11 +59,11 @@ def send_wechat_message(
     session: requests.Session, webhook_key: str, content: str
 ) -> bool:
     """发送单条 markdown_v2 消息到企业微信。返回是否成功。"""
-    if not webhook_key:
+    url = _resolve_webhook_url(webhook_key)
+    if not url:
         logger.warning("[wechat] 缺少 WECHAT_WEBHOOK_KEY,跳过通知")
         return False
 
-    url = f"https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key={webhook_key}"
     payload = {"msgtype": "markdown_v2", "markdown_v2": {"content": content}}
 
     for attempt in range(PYTHON_RETRY_COUNT):

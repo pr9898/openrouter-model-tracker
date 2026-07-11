@@ -41,7 +41,7 @@ class HfCard:
     """一次中文介绍抓取的结果。"""
 
     text: str
-    source: Literal["hf-readme", "openrouter-description", "none"]
+    source: Literal["hf-readme", "hf-readme-no-zh", "openrouter-description", "none"]
     language: Literal["zh", "en", "mixed", "unknown"]
     fetched_at: str
 
@@ -170,6 +170,8 @@ def get_zh_description(
                 fetched_at=fetched_at,
             )
 
+    # 到达此处:source 非 None 且 hf_repo_id 非空(否则上方已 return)
+    assert hf_repo_id is not None
     try:
         readme = fetch_hf_readme(
             session, hf_repo_id, hf_token=hf_token, source=source
@@ -198,11 +200,12 @@ def get_zh_description(
     if zh_text:
         return HfCard(text=zh_text, source="hf-readme", language=lang, fetched_at=fetched_at)
 
-    # README 存在但无中文 → fallback 到 OR 英文描述
+    # README 存在但无中文 → fallback 到 OR 英文描述,但标记为 hf-readme-no-zh
+    # (README 确实抓到了,只是没中文段落),以便上层据此长期缓存,避免每次重抓
     text = (openrouter_description or "").strip()
     return HfCard(
         text=text,
-        source="openrouter-description" if text else "none",
+        source="hf-readme-no-zh" if text else "none",
         language=lang,
         fetched_at=fetched_at,
     )

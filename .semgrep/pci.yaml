@@ -1,0 +1,8 @@
+# PCI Semgrep 检查标记文件
+#
+# 本仓库已登记纳入 pre-commit 质量门禁的 PCI Semgrep 扫描。
+# 注意:实际扫描规则集由全局 hook (security-scan.ts) 硬编码为:
+#   --config auto --config p/owasp-top-ten
+#   --config p/security-audit --config p/secrets
+# 本文件仅作为「已登记」的存在性标记,内容不参与扫描配置。
+# 如需豁免特定规则,请在调用点用行内 `# nosemgrep: <rule-id>` 精确豁免。

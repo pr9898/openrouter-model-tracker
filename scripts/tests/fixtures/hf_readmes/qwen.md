@@ -1,8 +1,8 @@
 ---
 license: apache-2.0
 language:
-- zh
-- en
+  - zh
+  - en
 ---
 
 # 通义千问3-235B-A22B

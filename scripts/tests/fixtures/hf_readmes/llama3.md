@@ -1,7 +1,7 @@
 ---
 license: llama3.3
 language:
-- en
+  - en
 ---
 
 # Llama 3.3 70B Instruct

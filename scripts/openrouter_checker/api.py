@@ -18,7 +18,8 @@ HF_README_URL = "https://huggingface.co/{repo_id}/raw/main/README.md"
 HF_API_URL = "https://huggingface.co/api/models/{repo_id}"
 
 # 中国镜像源(官方源不通时回退)
-HF_MIRROR_README_URL = "https://hf-mirror.com/{repo_id}/raw/main/README.md"
+# 注意: hf-mirror 的 raw/ 路径需要 token(返回 401),用 resolve/ 路径才能公开读取
+HF_MIRROR_README_URL = "https://hf-mirror.com/{repo_id}/resolve/main/README.md"
 HF_MIRROR_API_URL = "https://hf-mirror.com/api/models/{repo_id}"
 
 # 探测时尝试的源顺序(官方优先,镜像兜底)
@@ -49,7 +50,9 @@ def create_retry_session() -> requests.Session:
     )
     adapter = HTTPAdapter(max_retries=retry_strategy)
     session = requests.Session()
-    session.mount("http://", adapter)
+    # 仅挂载 https 适配器:OpenRouter / HuggingFace 均为 https,
+    # 本项目不发 http 明文请求,故不挂载 http:// 适配器(同时避免 semgrep
+    # insecure-transport 误报)
     session.mount("https://", adapter)
     return session
 
@@ -129,13 +132,13 @@ def check_hf_reachable(
     都不通返回 (None, 说明)。
     """
     for name, readme_url, api_url in HF_SOURCES:
-        url = readme_url.format(repo_id=probe_repo)
+        url = api_url.format(repo_id=probe_repo)
         try:
             resp = session.get(url, headers=_hf_headers(None), timeout=timeout)
         except requests.exceptions.RequestException as e:
             logger.debug("[hf-probe] %s 源不可达: %s", name, e)
             continue
-        # 任何能返回(含 404)都说明网络层通
+        # API 端点能返回(含 404)说明网络层通;raw README 受鉴权影响不可靠
         logger.info("[hf-probe] %s 源可达 (HTTP %d)", name, resp.status_code)
         return name, name
     return None, "官方与镜像源均不可达"
@@ -177,7 +180,8 @@ def fetch_hf_readme(
                 continue
             return None
 
-        if resp.status_code == 404:
+        if resp.status_code in (404, 401):
+            # 404 模型卡不存在;401 镜像 raw 路径鉴权问题 → 都读不到内容
             return None
         if resp.status_code == 429:
             retry_after = int(resp.headers.get("Retry-After", "10"))

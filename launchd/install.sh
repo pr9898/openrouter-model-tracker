@@ -15,7 +15,7 @@ PYTHON_BIN="$(command -v python3 || echo /usr/bin/python3)"
 mkdir -p "$HOME_DIR/bin" "$HOME_DIR/Library/LaunchAgents" "$PROJECT_DIR/logs"
 
 # 写入包装脚本(转发到项目入口)
-cat > "$WRAPPER" <<EOF
+cat >"$WRAPPER" <<EOF
 #!/bin/bash
 set -euo pipefail
 exec "$PYTHON_BIN" \\
@@ -25,15 +25,15 @@ EOF
 chmod +x "$WRAPPER"
 
 # 替换 plist 中的路径占位符
-sed "s|__HOME__|$HOME_DIR|g" "$PLIST_SRC" > "$PLIST_DST"
+sed "s|__HOME__|$HOME_DIR|g" "$PLIST_SRC" >"$PLIST_DST"
 chmod 644 "$PLIST_DST"
 xattr -c "$PLIST_DST" 2>/dev/null || true
 plutil -lint "$PLIST_DST"
 
 # 移除旧 crontab(若存在)
 if crontab -l 2>/dev/null | grep -q 'check_openrouter_models.py'; then
-  crontab -l | grep -v 'check_openrouter_models.py' | crontab -
-  echo "已移除 crontab 任务"
+	crontab -l | grep -v 'check_openrouter_models.py' | crontab -
+	echo "已移除 crontab 任务"
 fi
 
 # 重新加载 launchd

@@ -75,7 +75,7 @@ def run(args: argparse.Namespace) -> int:
 
             # 抓取中文介绍(仅需要刷新的)
             zh_updates = _fetch_zh_if_needed(
-                known, models, session, hf_token, refresh_zh, now_iso
+                known, models, session, hf_token, refresh_zh
             )
 
             # 合并状态
@@ -96,10 +96,20 @@ def run(args: argparse.Namespace) -> int:
         if new_models or removed_ids or important_changes(changes):
             if wechat_key:
                 try:
+                    # 通知前重读最新状态(含刚抓的 zh_description),
+                    # 给 new_models 的原始 API dict 补上中文简介,
+                    # 否则通知「简介」列取不到值显示为 -
+                    fresh_known = load_known_models()
+                    fresh_models = fresh_known.get("models", {})
+                    for m in new_models:
+                        mid = m["id"]
+                        zh = fresh_models.get(mid, {}).get("zh_description")
+                        if zh and not m.get("zh_description"):
+                            m["zh_description"] = zh
                     ok = send_notifications(
                         session, wechat_key, new_models, removed_ids,
                         changes, total_models, current_time,
-                        known=load_known_models(),
+                        known=fresh_known,
                     )
                     if not ok:
                         has_failure = True
@@ -119,7 +129,7 @@ def run(args: argparse.Namespace) -> int:
 
 
 def _fetch_zh_if_needed(
-    known, models, session, hf_token, refresh_zh, now_iso
+    known, models, session, hf_token, refresh_zh
 ) -> dict[str, dict]:
     """收集需要抓中文介绍的模型,并发抓取。返回 {model_id: zh 缓存 dict}。"""
     now_ts = time.time()
@@ -144,33 +154,35 @@ def _fetch_zh_if_needed(
             "[zh] HuggingFace 官方与镜像源均不可达,本批 %d 个模型回退英文描述",
             len(items),
         )
-        # 仍更新 fetched_at,避免每次运行都重探测浪费时间
+        # 源不可达时不写 zh_fetched_at,下次运行自动重试,避免一次网络抖动锁死 30 天
         updates: dict[str, dict] = {}
         for mid, _, desc in items:
             updates[mid] = {
                 "zh_description": (desc or "").strip(),
                 "zh_source": "openrouter-description" if desc else "none",
-                "zh_fetched_at": now_iso,
+                "zh_fetched_at": "",
             }
         return updates
 
     logger.info("[zh] 使用 HF 源: %s,需抓取 %d 个模型", source_desc, len(items))
     cards = batch_fetch_cards(items, hf_token=hf_token, source=source)
+    # hf_repo 是否为空,用于区分「本就无 HF 卡」与「抓取失败」
+    has_repo = {mid: bool(repo) for mid, repo, _ in items}
     updates: dict[str, dict] = {}
     for mid, card in cards.items():
-        if card.text:
-            updates[mid] = {
-                "zh_description": card.text,
-                "zh_source": card.source,
-                "zh_fetched_at": card.fetched_at,
-            }
-        else:
-            # 即使是 none,也更新 fetched_at 避免反复重试
-            updates[mid] = {
-                "zh_description": "",
-                "zh_source": card.source,
-                "zh_fetched_at": card.fetched_at,
-            }
+        # 长期缓存(写 zh_fetched_at,30 天内不重抓)的条件:
+        # 1. 成功提取中文 README (hf-readme)
+        # 2. README 抓到但无中文段落 (hf-readme-no-zh) —— 重抓也一样,无谓
+        # 3. 模型本就无 HF repo (hugging_face_id 为空) —— 无处可抓
+        # 其余(有 repo 但 README 抓取失败/不存在)不缓存,下次重试
+        cache = card.source in ("hf-readme", "hf-readme-no-zh") or not has_repo.get(
+            mid, False
+        )
+        updates[mid] = {
+            "zh_description": card.text,
+            "zh_source": card.source,
+            "zh_fetched_at": card.fetched_at if cache else "",
+        }
     return updates
 
 
