@@ -99,7 +99,9 @@ def translate_to_zh(
         "model": translate_model,
         "messages": _build_prompt(text, model_name),
         "temperature": 0.3,
-        "max_tokens": 200,
+        # 推理模型(如 tencent/hy3:free)会先在 reasoning 字段思考,
+        # 需给足 token 让思考完成并输出正文 content
+        "max_tokens": 2000,
     }
 
     try:
@@ -118,7 +120,8 @@ def translate_to_zh(
 
     try:
         data = resp.json()
-        content = data["choices"][0]["message"]["content"]
+        msg = data["choices"][0]["message"]
+        content = msg.get("content")
     except (ValueError, KeyError, IndexError, TypeError) as e:
         logger.debug("[translate] 响应解析失败: %s", e)
         return None
