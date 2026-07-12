@@ -1,5 +1,5 @@
 #!/bin/bash
-# 安装 OpenRouter 模型检测 launchd 定时任务(每日 08:00,北京时间)
+# 安装 OpenRouter 模型检测 launchd 定时任务(每日 08:06,北京时间)
 set -euo pipefail
 
 LABEL="com.openrouter.model-checker"
@@ -20,7 +20,7 @@ cat >"$WRAPPER" <<EOF
 set -euo pipefail
 exec "$PYTHON_BIN" \\
   "$PROJECT_DIR/scripts/check_openrouter_models.py" \\
-  --quiet --log-file
+  --log-file
 EOF
 chmod +x "$WRAPPER"
 
@@ -41,7 +41,7 @@ launchctl bootout "gui/$UID/$LABEL" 2>/dev/null || true
 launchctl bootstrap "gui/$UID" "$PLIST_DST"
 
 echo "launchd 任务已安装: $LABEL"
-echo "调度: 每天 08:00 (北京时间)"
+echo "调度: 每天 08:06 (北京时间)"
 echo "日志: $HOME_DIR/Library/Logs/com.openrouter.model-checker.{out,err}.log"
 echo "脚本日志: $PROJECT_DIR/logs/check_openrouter_models.log"
 echo ""

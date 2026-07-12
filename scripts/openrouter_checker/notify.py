@@ -9,9 +9,11 @@ from .formatting import (
     format_context_length,
     format_modality_chinese,
     format_price,
+    format_price_both,
     get_nested,
     sanitize_table_cell,
 )
+from .config import DEFAULT_USD_CNY_RATE
 from .wechat import WECHAT_SAFE_BYTES, send_wechat_message
 
 HEADER_MARKER = "# 🆕 OpenRouter 模型变动"
@@ -32,8 +34,15 @@ def _beijing_time(utc_time: str) -> str:
 
 
 def _model_zh(model: dict) -> str:
-    """取模型的中文介绍(优先缓存的 zh_description)。"""
-    return model.get("zh_description") or ""
+    """取模型的中文介绍。
+
+    优先缓存的 ``zh_description``;若为空(翻译失败/无中文/未抓取),
+    回退到 OpenRouter 英文 ``description``,避免显示 ``-``。
+    """
+    zh = model.get("zh_description")
+    if zh:
+        return zh
+    return model.get("description") or ""
 
 
 def build_summary_message(
@@ -47,6 +56,7 @@ def build_summary_message(
     max_new_rows: int = MAX_ROWS_PER_SECTION,
     max_change_rows: int = MAX_ROWS_PER_SECTION,
     max_removed_rows: int = MAX_ROWS_PER_SECTION,
+    usd_cny_rate: float = DEFAULT_USD_CNY_RATE,
 ) -> str:
     """构建三段式(新增 / 下线 / 重要变更)通知内容。"""
     known_models = (known or {}).get("models", {})
@@ -64,12 +74,13 @@ def build_summary_message(
     # 新增段
     if new_models:
         parts.append("## ✨ 新增模型")
-        parts.append("| 🤖 名称 | 🆔 ID | 🔀 模态 | 📏 上下文 | 📝 简介 |")
-        parts.append("| --- | --- | --- | --- | --- |")
+        parts.append("| 🤖 名称 | 🆔 ID | 🔀 模态 | 📏 上下文 | 💰 价格 | 📝 简介 |")
+        parts.append("| --- | --- | --- | --- | --- | --- |")
         for m in new_models[:max_new_rows]:
             arch = get_nested(m, "architecture", {}) or {}
             modality = arch.get("modality", "unknown") if isinstance(arch, dict) else "unknown"
             zh = _model_zh(m)
+            price = format_price_both(m.get("pricing"), usd_cny_rate)
             parts.append(
                 "| "
                 + " | ".join(
@@ -78,6 +89,7 @@ def build_summary_message(
                         sanitize_table_cell(m["id"]),
                         sanitize_table_cell(format_modality_chinese(modality)),
                         sanitize_table_cell(format_context_length(m.get("context_length", 0))),
+                        sanitize_table_cell(price),
                         sanitize_table_cell(zh[:120] if zh else "-"),
                     ]
                 )
@@ -216,13 +228,16 @@ def send_notifications(
     total_models: int,
     current_time: str,
     known: dict | None = None,
+    *,
+    usd_cny_rate: float = DEFAULT_USD_CNY_RATE,
 ) -> bool:
     """构建并发送三段式通知。无内容或无 webhook key 时跳过。"""
     if not webhook_key:
         logger_no_key()
         return True
     content = build_summary_message(
-        new_models, removed_ids, changes, total_models, current_time, known
+        new_models, removed_ids, changes, total_models, current_time, known,
+        usd_cny_rate=usd_cny_rate,
     )
     messages = split_message_by_sections(content)
     success = True

@@ -4,6 +4,8 @@ from __future__ import annotations
 
 from typing import Any
 
+from .config import DEFAULT_USD_CNY_RATE
+
 _MODALITY_LABELS = {
     "text": "文本",
     "image": "图像",
@@ -64,6 +66,51 @@ def format_price(value: Any) -> str:
     if price <= 0:
         return "免费"
     return f"${price:.6g}"
+
+
+def _per_million_usd(value: Any) -> float | None:
+    """OpenRouter 价格为每 token 美元(字符串),转成每百万 token 美元。
+
+    非法 / 缺失 / ≤0 返回 None。
+    """
+    try:
+        v = float(value)
+    except (TypeError, ValueError):
+        return None
+    if v <= 0:
+        return None
+    return v * 1_000_000
+
+
+def _fmt_usd(per_million: float) -> str:
+    """每百万 token 美元,可读性格式化。"""
+    return f"{per_million:.4g}"
+
+
+def format_price_both(
+    pricing: Any,
+    usd_cny_rate: float = DEFAULT_USD_CNY_RATE,
+) -> str:
+    """价格列:输入/输出 每百万 token 的 美元 + 人民币。
+
+    ``pricing`` 为 OpenRouter 的 ``pricing`` 对象(含 prompt / completion 等,
+    每 token 美元字符串)。两侧均缺失或免费 → ``免费``;否则分别格式化,
+    例: ``入 $1.25·¥8.98 出 $10·¥71.80``(¥ = 每百万美元 × 汇率)。
+    """
+    if not isinstance(pricing, dict):
+        return "-"
+    prompt = _per_million_usd(pricing.get("prompt"))
+    completion = _per_million_usd(pricing.get("completion"))
+
+    segments: list[str] = []
+    if prompt is not None:
+        segments.append(f"入 ${_fmt_usd(prompt)}·¥{prompt * usd_cny_rate:.2f}")
+    if completion is not None:
+        segments.append(f"出 ${_fmt_usd(completion)}·¥{completion * usd_cny_rate:.2f}")
+
+    if not segments:
+        return "免费"
+    return " ".join(segments)
 
 
 def get_nested(data: dict, dotted_path: str, default: Any = None) -> Any:

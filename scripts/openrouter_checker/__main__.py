@@ -13,6 +13,7 @@ from .api import (
     check_hf_reachable,
     create_retry_session,
     fetch_openrouter_models,
+    fetch_usd_cny_rate,
 )
 from .config import (
     LOG_DIR,
@@ -60,6 +61,8 @@ def run(args: argparse.Namespace) -> int:
     current_time = time.strftime("%Y-%m-%dT%H:%M:%S")
     bj_time = time.strftime("%Y-%m-%d %H:%M:%S")
     session = create_retry_session()
+    # 实时美元→人民币汇率(失败兜底,不阻断)
+    usd_cny_rate = fetch_usd_cny_rate(session)
 
     try:
         models = fetch_openrouter_models(session, api_url, api_key)
@@ -80,7 +83,7 @@ def run(args: argparse.Namespace) -> int:
         new_models, removed_ids, changes = detect_changes(models, known)
 
         if args.dry_run:
-            _print_dry_run(new_models, removed_ids, changes, total_models, bj_time, known)
+            _print_dry_run(new_models, removed_ids, changes, total_models, bj_time, known, usd_cny_rate=usd_cny_rate)
         else:
             now_iso = time.strftime("%Y-%m-%dT%H:%M:%S")
 
@@ -102,39 +105,37 @@ def run(args: argparse.Namespace) -> int:
             # 写精简报告
             _write_report(new_models, removed_ids, changes, total_models, now_iso)
 
-    # 通知(非首次 + 有变化 + 有 key)
+    # 通知(非首次 + 有 key)—— 每天必发,无论是否有变化
     if not args.dry_run and not first_run:
-        if new_models or removed_ids or important_changes(changes):
-            if wechat_key:
-                try:
-                    # 通知前重读最新状态(含刚抓的 zh_description),
-                    # 给 new_models 的原始 API dict 补上中文简介,
-                    # 否则通知「简介」列取不到值显示为 -
-                    fresh_known = load_known_models()
-                    fresh_models = fresh_known.get("models", {})
-                    for m in new_models:
-                        mid = m["id"]
-                        zh = fresh_models.get(mid, {}).get("zh_description")
-                        if zh and not m.get("zh_description"):
-                            m["zh_description"] = zh
-                    ok = send_notifications(
-                        session, wechat_key, new_models, removed_ids,
-                        changes, total_models, current_time,
-                        known=fresh_known,
-                    )
-                    if not ok:
-                        has_failure = True
-                except Exception as e:
-                    logger.warning("[notify] 通知异常: %s", e)
+        if args.quiet:
+            logger.info("[main] --quiet 模式,跳过通知")
+        elif wechat_key:
+            try:
+                # 通知前重读最新状态(含刚抓的 zh_description),
+                # 给 new_models 的原始 API dict 补上中文简介,
+                # 否则通知「简介」列取不到值显示为 -
+                fresh_known = load_known_models()
+                fresh_models = fresh_known.get("models", {})
+                for m in new_models:
+                    mid = m["id"]
+                    zh = fresh_models.get(mid, {}).get("zh_description")
+                    if zh and not m.get("zh_description"):
+                        m["zh_description"] = zh
+                ok = send_notifications(
+                    session, wechat_key, new_models, removed_ids,
+                    changes, total_models, current_time,
+                    known=fresh_known,
+                    usd_cny_rate=usd_cny_rate,
+                )
+                if not ok:
                     has_failure = True
-            else:
-                logger.warning("[main] 缺少 WECHAT_WEBHOOK_KEY,跳过通知")
+            except Exception as e:
+                logger.warning("[notify] 通知异常: %s", e)
+                has_failure = True
         else:
-            logger.info("[main] 无新增/下线/重要变更,跳过通知")
+            logger.warning("[main] 缺少 WECHAT_WEBHOOK_KEY,跳过通知")
     elif first_run and not args.dry_run:
         logger.info("[main] 首次运行,已建立基线(%d 个模型),跳过通知", total_models)
-    elif args.quiet and not new_models and not removed_ids and not changes:
-        logger.info("[main] --quiet 模式,无变化")
 
     return 1 if has_failure else 0
 
@@ -200,7 +201,7 @@ def _fetch_zh_if_needed(
     return updates
 
 
-def _print_dry_run(new_models, removed_ids, changes, total_models, bj_time, known):
+def _print_dry_run(new_models, removed_ids, changes, total_models, bj_time, known, *, usd_cny_rate=7.2):
     print(f"[dry-run] 新增 {len(new_models)} / 下线 {len(removed_ids)} / 变更 {len(changes)}", file=sys.stderr)
     for m in new_models:
         print(f"  🆕 {m['id']} — {m.get('name', '')}", file=sys.stderr)
@@ -214,6 +215,7 @@ def _print_dry_run(new_models, removed_ids, changes, total_models, bj_time, know
             build_summary_message(
                 new_models, removed_ids, changes, total_models,
                 time.strftime("%Y-%m-%dT%H:%M:%S"), known,
+                usd_cny_rate=usd_cny_rate,
             ),
             file=sys.stderr,
         )

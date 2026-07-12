@@ -10,7 +10,7 @@ import requests
 from requests.adapters import HTTPAdapter
 from urllib3.util.retry import Retry
 
-from .config import DEFAULT_OPENROUTER_API_URL, DEFAULT_TIMEOUT
+from .config import DEFAULT_OPENROUTER_API_URL, DEFAULT_TIMEOUT, DEFAULT_USD_CNY_RATE
 
 logger = logging.getLogger("openrouter_checker.api")
 
@@ -107,6 +107,36 @@ def fetch_openrouter_models(
 
     logger.info("[fetch_openrouter] 获取 %d 个模型", len(models))
     return models
+
+
+# 免 key 的实时汇率接口(返回 rates.CNY)。多个源依次尝试,增强可用性。
+_FX_ENDPOINTS = (
+    "https://open.er-api.com/v6/latest/USD",
+    "https://api.frankfurter.app/latest?from=USD&to=CNY",
+)
+
+
+def fetch_usd_cny_rate(session: requests.Session, timeout: int = 5) -> float:
+    """获取美元→人民币实时汇率(每 1 美元兑多少人民币)。
+
+    依次尝试多个免 key 的汇率接口,取首个成功返回的 ``rates.CNY``。
+    任何异常、非 200、或解析失败都回退到 ``DEFAULT_USD_CNY_RATE``,
+    不阻断主流程。
+    """
+    for url in _FX_ENDPOINTS:
+        try:
+            resp = session.get(url, timeout=timeout)
+            if resp.status_code != 200:
+                continue
+            rate = resp.json().get("rates", {}).get("CNY")
+            if rate:
+                return float(rate)
+        except requests.exceptions.RequestException as e:
+            logger.debug("[fx] 汇率请求失败 (%s): %s", url, e)
+        except (ValueError, TypeError) as e:
+            logger.debug("[fx] 汇率解析失败 (%s): %s", url, e)
+    logger.warning("[fx] 实时汇率获取失败,回退默认 %.2f", DEFAULT_USD_CNY_RATE)
+    return DEFAULT_USD_CNY_RATE
 
 
 class RateLimitError(Exception):

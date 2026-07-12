@@ -4,6 +4,7 @@ import json
 from pathlib import Path
 
 from openrouter_checker.diff import ModelChange, detect_changes
+from openrouter_checker.formatting import format_price_both
 from openrouter_checker.notify import (
     build_summary_message,
     split_message_by_sections,
@@ -55,3 +56,54 @@ def test_split_long_message_multiple():
 def test_no_changes_message():
     msg = build_summary_message([], [], [], 100, "2026-07-10T00:00:00")
     assert "无新增" in msg
+
+
+def _new_model(mid, *, zh="", description="", pricing=None):
+    m = {
+        "id": mid,
+        "name": mid.split("/")[-1],
+        "architecture": {"modality": "text"},
+        "context_length": 128000,
+    }
+    if zh:
+        m["zh_description"] = zh
+    if description:
+        m["description"] = description
+    if pricing is not None:
+        m["pricing"] = pricing
+    return m
+
+
+def test_new_model_table_has_price_column_before_intro():
+    new = [_new_model(
+        "acme/foo", zh="中文介绍",
+        pricing={"prompt": "0.00000125", "completion": "0.00001"},
+    )]
+    msg = build_summary_message(new, [], [], 1, "2026-07-10T00:00:00", usd_cny_rate=7.2)
+    # 表头:价格列位于中文介绍列之前
+    assert "| 🤖 名称 | 🆔 ID | 🔀 模态 | 📏 上下文 | 💰 价格 | 📝 简介 |" in msg
+    # 价格格含美元 + 人民币
+    assert "$1.25" in msg and "¥9.00" in msg
+    assert "出 $10·¥72.00" in msg
+
+
+def test_intro_falls_back_to_english_description():
+    new = [_new_model("acme/bar", description="An English model description.")]
+    msg = build_summary_message(new, [], [], 1, "2026-07-10T00:00:00")
+    row = [l for l in msg.splitlines() if l.startswith("|") and "acme/bar" in l][0]
+    # 无中文时回退英文介绍,而非显示 -
+    assert "An English model description." in row
+
+
+def test_format_price_both_usd_and_cny():
+    assert format_price_both(
+        {"prompt": "0.00000125", "completion": "0.00001"}, 7.2
+    ) == "入 $1.25·¥9.00 出 $10·¥72.00"
+    # 仅输入价
+    assert format_price_both({"prompt": "0.000001"}) == "入 $1·¥7.20"
+    # 免费
+    assert format_price_both({"prompt": "0", "completion": "0"}) == "免费"
+    # 无 pricing
+    assert format_price_both(None) == "-"
+    # 汇率默认值兜底
+    assert "¥" in format_price_both({"prompt": "0.000001"})
