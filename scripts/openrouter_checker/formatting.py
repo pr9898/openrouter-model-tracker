@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import math
 from typing import Any
 
 from .config import DEFAULT_USD_CNY_RATE
@@ -58,14 +59,19 @@ def sanitize_table_cell(value: Any) -> str:
 
 
 def format_price(value: Any) -> str:
-    """格式化价格(每百万 token 美元),0 显示为免费。"""
+    """格式化价格(每百万 token 美元),0 显示为免费,避免科学计数法。
+
+    OpenRouter 的价格为「每 token 美元」(极小,如 8e-07),直接格式化会得到
+    ``$8e-07`` 这种科学计数法。这里统一换算成「每百万 token」并用普通小数展示,
+    与新增模型的价格列保持一致(8e-07/token → $0.8)。
+    """
     try:
         price = float(value)
     except (TypeError, ValueError):
         return "-"
     if price <= 0:
         return "免费"
-    return f"${price:.6g}"
+    return f"${_fmt_usd(price * 1_000_000)}"
 
 
 def _per_million_usd(value: Any) -> float | None:
@@ -83,8 +89,19 @@ def _per_million_usd(value: Any) -> float | None:
 
 
 def _fmt_usd(per_million: float) -> str:
-    """每百万 token 美元,可读性格式化。"""
-    return f"{per_million:.4g}"
+    """每百万 token 美元的定点表示:避免科学计数法,自适应小数位并去尾零。
+
+    例:``0.8`` → ``"0.8"``,``1.25`` → ``"1.25"``,``10000`` → ``"10000"``,
+    ``8e-07``/token 换算的 ``0.8`` → ``"0.8"``(不会变成 ``8e-07``)。
+    """
+    if per_million == 0:
+        return "0"
+    magnitude = math.floor(math.log10(abs(per_million)))
+    decimals = max(0, min(12, 4 - magnitude))
+    s = f"{per_million:.{decimals}f}"
+    if "." in s:
+        s = s.rstrip("0").rstrip(".")
+    return s
 
 
 def format_price_both(
