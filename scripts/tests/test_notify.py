@@ -3,7 +3,7 @@
 import json
 from pathlib import Path
 
-from openrouter_checker.diff import ModelChange, detect_changes
+from openrouter_checker.diff import FieldDiff, ModelChange, detect_changes
 from openrouter_checker.formatting import format_price_both
 from openrouter_checker.notify import (
     build_summary_message,
@@ -26,6 +26,9 @@ def test_build_summary_contains_three_sections():
     assert "## ⚡ 重要变更" in msg
     assert "qwen/qwen3-235b-a22b" in msg
     assert "anthropic/claude-3.5-sonnet" in msg
+    # 重要变更表带简介列,回退英文描述
+    assert "| 🆔 ID | 字段 | 旧 | 新 | 📝 简介 |" in msg
+    assert "Claude 3.5 Sonnet is a strong model." in msg
 
 
 def test_split_short_message_single():
@@ -93,6 +96,37 @@ def test_intro_falls_back_to_english_description():
     row = [l for l in msg.splitlines() if l.startswith("|") and "acme/bar" in l][0]
     # 无中文时回退英文介绍,而非显示 -
     assert "An English model description." in row
+
+
+def test_change_table_uses_cached_zh_description():
+    known = {
+        "models": {
+            "acme/baz": {
+                "first_seen": "2026-01-01T00:00:00",
+                "zh_description": "缓存的中文简介",
+                "data": {"id": "acme/baz", "description": "English fallback."},
+            }
+        }
+    }
+    change = ModelChange(
+        model_id="acme/baz",
+        change_type="changed",
+        field_diffs=[
+            FieldDiff(
+                field="pricing.prompt", old="0.000001", new="0.000002",
+                severity="major", reason="输入价格变化",
+            )
+        ],
+        importance="major",
+        summary_zh="pricing.prompt: $1 → $2",
+        old_data={"id": "acme/baz"},
+        new_data={"id": "acme/baz", "description": "English fallback."},
+    )
+    msg = build_summary_message([], [], [change], 1, "2026-07-10T00:00:00", known)
+    row = [l for l in msg.splitlines() if l.startswith("|") and "acme/baz" in l][0]
+    # 优先取缓存的中文简介,而非英文 description
+    assert "缓存的中文简介" in row
+    assert "English fallback." not in row
 
 
 def test_format_price_both_usd_and_cny():

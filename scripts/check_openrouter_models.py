@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """OpenRouter 模型上新检测(增强版)— 入口脚本。
 
-保留原 skill 的脚本名与调用契约(launchd / crontab / GitHub Actions),
+保留原 skill 的脚本名与调用契约(crontab / GitHub Actions),
 内部逻辑转发到 ``openrouter_checker`` 包。
 
 常用参数:

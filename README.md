@@ -12,12 +12,12 @@
 | **变更检测**(价格/上下文/模态) | ❌            | ✅ critical/major/minor 三级判定      |
 | **三段式通知**                 | ❌            | ✅ 新增+下线+变更,智能分片            |
 | 企业微信推送                   | ✅            | ✅(保留)                              |
-| 部署                           | macOS launchd | **GitHub Actions** + launchd 二选一   |
+| 部署                           | macOS launchd | **GitHub Actions**                    |
 
 ## 工作原理
 
 ```text
-GitHub Actions 每天 08:00(北京时间,UTC 0:00) 触发
+GitHub Actions 每天 06:58(北京时间,UTC 22:58) 触发
   ↓
 fetch GET https://openrouter.ai/api/v1/models (公开 API,无需 key)
   ↓
@@ -67,7 +67,7 @@ python3 scripts/check_openrouter_models.py --log-file
 3. **Settings → Actions → General → Workflow permissions** 勾选
    "Read and write permissions"(用于 commit 状态文件回仓库)
 4. 手动触发一次:`Actions → Check OpenRouter Models → Run workflow`
-5. 之后每天 UTC 0:00 自动运行
+5. 之后每天 UTC 22:58(北京时间 6:58)自动运行
 
 > **限流提示**:首次基线会抓取全部模型的中文介绍(可能 300+ 次 HF 请求)。
 > 默认 5 并发、约 1 req/s,约 6 分钟完成。配置 `HF_TOKEN` 可显著提升限额。
@@ -103,7 +103,6 @@ python3 scripts/check_openrouter_models.py --log-file
 ```text
 .
 ├── .github/workflows/        # GitHub Actions (cron + dispatch)
-├── launchd/                  # macOS 本地部署(备选)
 ├── scripts/
 │   ├── check_openrouter_models.py   # 入口(兼容原调用契约)
 │   ├── openrouter_checker/          # 核心包

@@ -1,9 +1,9 @@
 name: Check OpenRouter Models
 
 on:
-  # 每天 UTC 0:06 = 北京时间 8:06
+  # 每天 UTC 22:58(前一天)= 北京时间 6:58
   schedule:
-    - cron: "6 0 * * *"
+    - cron: "58 22 * * *"
   # 手动触发
   workflow_dispatch:
     inputs:

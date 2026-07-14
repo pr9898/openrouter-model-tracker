@@ -45,6 +45,24 @@ def _model_zh(model: dict) -> str:
     return model.get("description") or ""
 
 
+def _change_zh(
+    model_id: str,
+    known_models: dict,
+    new_data: dict | None,
+    old_data: dict | None,
+) -> str:
+    """取变更模型的简介。
+
+    优先 ``known_models`` 中缓存的 ``zh_description``(与模型条目同级,
+    非 ``data`` 内);缓存为空则回退新/旧数据里的英文 ``description``。
+    """
+    zh = (known_models.get(model_id) or {}).get("zh_description")
+    if zh:
+        return zh
+    data = new_data or old_data or {}
+    return data.get("description") or ""
+
+
 def build_summary_message(
     new_models: list[dict],
     removed_ids: list[str],
@@ -110,8 +128,8 @@ def build_summary_message(
     # 重要变更段
     if important:
         parts.append("## ⚡ 重要变更")
-        parts.append("| 🆔 ID | 字段 | 旧 | 新 |")
-        parts.append("| --- | --- | --- | --- |")
+        parts.append("| 🆔 ID | 字段 | 旧 | 新 | 📝 简介 |")
+        parts.append("| --- | --- | --- | --- | --- |")
         for c in important[:max_change_rows]:
             # 取第一个 critical/major diff 展示
             d = c.field_diffs[0]
@@ -119,6 +137,7 @@ def build_summary_message(
                 old_s, new_s = format_price(d.old), format_price(d.new)
             else:
                 old_s, new_s = str(d.old), str(d.new)
+            zh = _change_zh(c.model_id, known_models, c.new_data, c.old_data)
             parts.append(
                 "| "
                 + " | ".join(
@@ -127,6 +146,7 @@ def build_summary_message(
                         sanitize_table_cell(d.field),
                         sanitize_table_cell(old_s),
                         sanitize_table_cell(new_s),
+                        sanitize_table_cell(zh[:120] if zh else "-"),
                     ]
                 )
                 + " |"
