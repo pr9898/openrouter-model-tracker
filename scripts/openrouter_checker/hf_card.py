@@ -204,6 +204,7 @@ def get_zh_description(
             return _try_translate("openrouter-description", "en")
         if source is None:
             return _try_translate("openrouter-description", "en")
+        hf_repo_id = resolved  # 回写推断出的仓库路径,供后续 fetch 使用
 
     # 到达此处:source 非 None 且 hf_repo_id 非空(否则上方已 return)
     assert hf_repo_id is not None
