@@ -1,10 +1,10 @@
 name: Check OpenRouter Models
 
 on:
-  # 每天 UTC 21:08(前一天)= 北京时间 5:08
-  # 实测 GH Actions schedule 延迟约 2h52min,5:08 触发 → 约 8:00 收到通知
+  # 每天 UTC 21:00(前一天)= 北京时间 5:00
+  # 实测 GH Actions schedule 延迟约 2h52min,5:00 触发 → 约 7:52 收到通知
   schedule:
-    - cron: "8 21 * * *"
+    - cron: "0 21 * * *"
   # 手动触发
   workflow_dispatch:
     inputs:

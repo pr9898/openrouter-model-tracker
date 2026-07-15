@@ -71,7 +71,7 @@ def format_price(value: Any) -> str:
         return "-"
     if price <= 0:
         return "免费"
-    return f"${_fmt_usd(price * 1_000_000)}"
+    return f"{_fmt_usd(price * 1_000_000)}美元"
 
 
 def _per_million_usd(value: Any) -> float | None:
@@ -121,9 +121,9 @@ def format_price_both(
 
     segments: list[str] = []
     if prompt is not None:
-        segments.append(f"入 ${_fmt_usd(prompt)}·¥{prompt * usd_cny_rate:.2f}")
+        segments.append(f"入 {_fmt_usd(prompt)}美元·¥{prompt * usd_cny_rate:.2f}")
     if completion is not None:
-        segments.append(f"出 ${_fmt_usd(completion)}·¥{completion * usd_cny_rate:.2f}")
+        segments.append(f"出 {_fmt_usd(completion)}美元·¥{completion * usd_cny_rate:.2f}")
 
     if not segments:
         return "免费"
