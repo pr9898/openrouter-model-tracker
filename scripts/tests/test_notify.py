@@ -86,8 +86,8 @@ def test_new_model_table_has_price_column_before_intro():
     # 表头:价格列位于中文介绍列之前
     assert "| 🤖 名称 | 🆔 ID | 🔀 模态 | 📏 上下文 | 💰 价格 | 📝 简介 |" in msg
     # 价格格含美元 + 人民币
-    assert "1.25美元" in msg and "¥9.00" in msg
-    assert "出 10美元·¥72.00" in msg
+    assert "$1.25" in msg and "¥9.00" in msg
+    assert "出 $10·¥72.00" in msg
 
 
 def test_intro_falls_back_to_english_description():
@@ -132,9 +132,9 @@ def test_change_table_uses_cached_zh_description():
 def test_format_price_both_usd_and_cny():
     assert format_price_both(
         {"prompt": "0.00000125", "completion": "0.00001"}, 7.2
-    ) == "入 1.25美元·¥9.00 出 10美元·¥72.00"
+    ) == "入 $1.25·¥9.00 出 $10·¥72.00"
     # 仅输入价
-    assert format_price_both({"prompt": "0.000001"}) == "入 1美元·¥7.20"
+    assert format_price_both({"prompt": "0.000001"}) == "入 $1·¥7.20"
     # 免费
     assert format_price_both({"prompt": "0", "completion": "0"}) == "免费"
     # 无 pricing

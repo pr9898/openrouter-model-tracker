@@ -40,7 +40,7 @@ def test_format_context_length_invalid():
 def test_format_price():
     assert format_price(0) == "免费"
     assert format_price("0") == "免费"
-    assert format_price(0.000003) == "3美元"
+    assert format_price(0.000003) == "$3"
 
 
 def test_sanitize_table_cell():
