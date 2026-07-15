@@ -92,6 +92,7 @@ def build_summary_message(
     # 新增段
     if new_models:
         parts.append("## ✨ 新增模型")
+        parts.append("")
         parts.append("| 🤖 名称 | 🆔 ID | 🔀 模态 | 📏 上下文 | 💰 价格 | 📝 简介 |")
         parts.append("| --- | --- | --- | --- | --- | --- |")
         for m in new_models[:max_new_rows]:
@@ -115,6 +116,7 @@ def build_summary_message(
             )
         if len(new_models) > max_new_rows:
             parts.append(f"📋 还有 **{len(new_models) - max_new_rows}** 个新模型,见日志")
+        parts.append("")
 
     # 下线段
     if removed_ids:
@@ -124,10 +126,12 @@ def build_summary_message(
             parts.append(f"- `{sanitize_table_cell(mid)}` (首次发现: {first_seen})")
         if len(removed_ids) > max_removed_rows:
             parts.append(f"📋 还有 **{len(removed_ids) - max_removed_rows}** 个下线模型,见日志")
+        parts.append("")
 
     # 重要变更段
     if important:
         parts.append("## ⚡ 重要变更")
+        parts.append("")
         parts.append("| 🆔 ID | 字段 | 旧 | 新 | 📝 简介 |")
         parts.append("| --- | --- | --- | --- | --- |")
         for c in important[:max_change_rows]:
@@ -153,6 +157,7 @@ def build_summary_message(
             )
         if len(important) > max_change_rows:
             parts.append(f"📋 还有 **{len(important) - max_change_rows}** 个变更,见日志")
+        parts.append("")
 
     if not (new_models or removed_ids or important):
         parts.append("✅ 本次无新增 / 下线 / 重要变更")
