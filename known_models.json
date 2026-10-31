@@ -1306,6 +1306,12 @@
         "links": {
           "details": "/api/v1/models/poolside/laguna-xs-2.1-20260625/endpoints"
         },
+        "endpoints": [
+          "/api/v1/chat/completions",
+          "/api/v1/completions",
+          "/api/v1/messages",
+          "/api/v1/responses"
+        ],
         "reasoning": {
           "mandatory": false,
           "default_enabled": true
@@ -1362,6 +1368,12 @@
         "links": {
           "details": "/api/v1/models/poolside/laguna-xs-2.1-20260625/endpoints"
         },
+        "endpoints": [
+          "/api/v1/chat/completions",
+          "/api/v1/completions",
+          "/api/v1/messages",
+          "/api/v1/responses"
+        ],
         "reasoning": {
           "mandatory": false,
           "default_enabled": true
@@ -2089,27 +2101,33 @@
         "links": {
           "details": "/api/v1/models/z-ai/glm-5.2-20260616/endpoints"
         },
+        "endpoints": [
+          "/api/v1/chat/completions",
+          "/api/v1/completions",
+          "/api/v1/messages",
+          "/api/v1/responses"
+        ],
         "benchmarks": {
           "design_arena": [
             {
               "arena": "agents",
               "category": "agenticgamedev",
-              "elo": 1157,
+              "elo": 1156,
               "win_rate": 49.3,
               "rank": 10
             },
             {
               "arena": "agents",
               "category": "androidnative",
-              "elo": 1177,
+              "elo": 1175,
               "win_rate": 52.8,
-              "rank": 17
+              "rank": 18
             },
             {
               "arena": "agents",
               "category": "blender3d",
-              "elo": 963,
-              "win_rate": 34,
+              "elo": 974,
+              "win_rate": 35.1,
               "rank": 22
             },
             {
@@ -2142,6 +2160,13 @@
             },
             {
               "arena": "agents",
+              "category": "pdf",
+              "elo": 1353,
+              "win_rate": 66.7,
+              "rank": 1
+            },
+            {
+              "arena": "agents",
               "category": "python-pptxslides",
               "elo": 1148,
               "win_rate": 48.7,
@@ -2150,7 +2175,7 @@
             {
               "arena": "agents",
               "category": "webapps",
-              "elo": 1213,
+              "elo": 1211,
               "win_rate": 55.8,
               "rank": 16
             },
@@ -2180,14 +2205,14 @@
               "category": "dataviz",
               "elo": 1286,
               "win_rate": 52,
-              "rank": 17
+              "rank": 18
             },
             {
               "arena": "models",
               "category": "gamedev",
               "elo": 1266,
               "win_rate": 49.4,
-              "rank": 27
+              "rank": 28
             },
             {
               "arena": "models",
@@ -2965,6 +2990,12 @@
         "links": {
           "details": "/api/v1/models/nvidia/nemotron-3.5-content-safety-20260604/endpoints"
         },
+        "endpoints": [
+          "/api/v1/chat/completions",
+          "/api/v1/completions",
+          "/api/v1/messages",
+          "/api/v1/responses"
+        ],
         "reasoning": {
           "mandatory": false,
           "default_enabled": true
@@ -3030,6 +3061,12 @@
         "links": {
           "details": "/api/v1/models/nvidia/nemotron-3-ultra-550b-a55b-20260604/endpoints"
         },
+        "endpoints": [
+          "/api/v1/chat/completions",
+          "/api/v1/completions",
+          "/api/v1/messages",
+          "/api/v1/responses"
+        ],
         "benchmarks": {
           "design_arena": [
             {
@@ -3049,7 +3086,7 @@
             {
               "arena": "models",
               "category": "codecategories",
-              "elo": 1146,
+              "elo": 1145,
               "win_rate": 36,
               "rank": 90
             },
@@ -3063,15 +3100,15 @@
             {
               "arena": "models",
               "category": "gamedev",
-              "elo": 1140,
-              "win_rate": 36.1,
-              "rank": 79
+              "elo": 1139,
+              "win_rate": 36,
+              "rank": 80
             },
             {
               "arena": "models",
               "category": "svg",
-              "elo": 1067,
-              "win_rate": 32.2,
+              "elo": 1068,
+              "win_rate": 32.3,
               "rank": 75
             },
             {
@@ -3177,6 +3214,12 @@
         "links": {
           "details": "/api/v1/models/nvidia/nemotron-3-ultra-550b-a55b-20260604/endpoints"
         },
+        "endpoints": [
+          "/api/v1/chat/completions",
+          "/api/v1/completions",
+          "/api/v1/messages",
+          "/api/v1/responses"
+        ],
         "benchmarks": {
           "design_arena": [
             {
@@ -3196,7 +3239,7 @@
             {
               "arena": "models",
               "category": "codecategories",
-              "elo": 1146,
+              "elo": 1145,
               "win_rate": 36,
               "rank": 90
             },
@@ -3210,15 +3253,15 @@
             {
               "arena": "models",
               "category": "gamedev",
-              "elo": 1140,
-              "win_rate": 36.1,
-              "rank": 79
+              "elo": 1139,
+              "win_rate": 36,
+              "rank": 80
             },
             {
               "arena": "models",
               "category": "svg",
-              "elo": 1067,
-              "win_rate": 32.2,
+              "elo": 1068,
+              "win_rate": 32.3,
               "rank": 75
             },
             {
@@ -3467,14 +3510,20 @@
         "links": {
           "details": "/api/v1/models/minimax/minimax-m3-20260531/endpoints"
         },
+        "endpoints": [
+          "/api/v1/chat/completions",
+          "/api/v1/completions",
+          "/api/v1/messages",
+          "/api/v1/responses"
+        ],
         "benchmarks": {
           "design_arena": [
             {
               "arena": "agents",
               "category": "agenticgamedev",
-              "elo": 1112,
-              "win_rate": 44.2,
-              "rank": 19
+              "elo": 1116,
+              "win_rate": 44.8,
+              "rank": 18
             },
             {
               "arena": "agents",
@@ -3486,8 +3535,8 @@
             {
               "arena": "agents",
               "category": "blender3d",
-              "elo": 1067,
-              "win_rate": 45.5,
+              "elo": 1072,
+              "win_rate": 46.4,
               "rank": 15
             },
             {
@@ -3507,15 +3556,15 @@
             {
               "arena": "agents",
               "category": "mobileapps",
-              "elo": 1170,
-              "win_rate": 45.9,
+              "elo": 1171,
+              "win_rate": 46.1,
               "rank": 25
             },
             {
               "arena": "agents",
               "category": "pdf",
-              "elo": 1214,
-              "win_rate": 56.5,
+              "elo": 1272,
+              "win_rate": 62.1,
               "rank": 6
             },
             {
@@ -3535,16 +3584,16 @@
             {
               "arena": "agents",
               "category": "webapps",
-              "elo": 1193,
+              "elo": 1191,
               "win_rate": 47.1,
-              "rank": 24
+              "rank": 23
             },
             {
               "arena": "models",
               "category": "3d",
               "elo": 1206,
               "win_rate": 50.1,
-              "rank": 46
+              "rank": 47
             },
             {
               "arena": "models",
@@ -3585,7 +3634,7 @@
               "arena": "models",
               "category": "uicomponent",
               "elo": 1241,
-              "win_rate": 50.5,
+              "win_rate": 50.6,
               "rank": 44
             },
             {
@@ -3593,7 +3642,7 @@
               "category": "website",
               "elo": 1256,
               "win_rate": 51.6,
-              "rank": 41
+              "rank": 40
             }
           ],
           "artificial_analysis": {
@@ -5496,6 +5545,12 @@
         "links": {
           "details": "/api/v1/models/nvidia/nemotron-3-nano-omni-30b-a3b-reasoning-20260428/endpoints"
         },
+        "endpoints": [
+          "/api/v1/chat/completions",
+          "/api/v1/completions",
+          "/api/v1/messages",
+          "/api/v1/responses"
+        ],
         "benchmarks": {
           "design_arena": [],
           "artificial_analysis": {
@@ -5975,6 +6030,12 @@
         "links": {
           "details": "/api/v1/models/~moonshotai/kimi-latest/endpoints"
         },
+        "endpoints": [
+          "/api/v1/chat/completions",
+          "/api/v1/completions",
+          "/api/v1/messages",
+          "/api/v1/responses"
+        ],
         "reasoning": {
           "mandatory": false,
           "default_enabled": true,
@@ -6462,6 +6523,12 @@
         "links": {
           "details": "/api/v1/models/qwen/qwen3.6-35b-a3b-20260415/endpoints"
         },
+        "endpoints": [
+          "/api/v1/chat/completions",
+          "/api/v1/completions",
+          "/api/v1/messages",
+          "/api/v1/responses"
+        ],
         "benchmarks": {
           "design_arena": [],
           "artificial_analysis": {
@@ -6628,6 +6695,12 @@
         "links": {
           "details": "/api/v1/models/qwen/qwen3.6-27b-20260422/endpoints"
         },
+        "endpoints": [
+          "/api/v1/chat/completions",
+          "/api/v1/completions",
+          "/api/v1/messages",
+          "/api/v1/responses"
+        ],
         "benchmarks": {
           "design_arena": [],
           "artificial_analysis": {
@@ -7033,6 +7106,12 @@
         "links": {
           "details": "/api/v1/models/deepseek/deepseek-v4-pro-20260423/endpoints"
         },
+        "endpoints": [
+          "/api/v1/chat/completions",
+          "/api/v1/completions",
+          "/api/v1/messages",
+          "/api/v1/responses"
+        ],
         "benchmarks": {
           "design_arena": [
             {
@@ -7192,6 +7271,12 @@
         "links": {
           "details": "/api/v1/models/deepseek/deepseek-v4-flash-20260423/endpoints"
         },
+        "endpoints": [
+          "/api/v1/chat/completions",
+          "/api/v1/completions",
+          "/api/v1/messages",
+          "/api/v1/responses"
+        ],
         "benchmarks": {
           "design_arena": [
             {
@@ -7213,7 +7298,7 @@
               "category": "codecategories",
               "elo": 1204,
               "win_rate": 48.9,
-              "rank": 63
+              "rank": 62
             },
             {
               "arena": "models",
@@ -7994,7 +8079,13 @@
         "expiration_date": null,
         "links": {
           "details": "/api/v1/models/openrouter/pareto-code/endpoints"
-        }
+        },
+        "endpoints": [
+          "/api/v1/chat/completions",
+          "/api/v1/completions",
+          "/api/v1/messages",
+          "/api/v1/responses"
+        ]
       },
       "zh_description": "The Pareto Router maintains a tiered shortlist of strong coding models, ranked by [Artificial Analysis](https://artificialanalysis.ai/) coding percentiles. Set min_coding_score between 0 and 1 on the [pareto-router plugin](https://openrouter.ai/docs/guides/routing/routers/pareto-router#the-min_coding_score-parameter) to control how...",
       "zh_source": "openrouter-description",
@@ -8066,12 +8157,18 @@
         "links": {
           "details": "/api/v1/models/moonshotai/kimi-k2.6-20260420/endpoints"
         },
+        "endpoints": [
+          "/api/v1/chat/completions",
+          "/api/v1/completions",
+          "/api/v1/messages",
+          "/api/v1/responses"
+        ],
         "benchmarks": {
           "design_arena": [
             {
               "arena": "agents",
               "category": "agenticgamedev",
-              "elo": 1091,
+              "elo": 1090,
               "win_rate": 47.5,
               "rank": 21
             },
@@ -8206,7 +8303,7 @@
               "category": "svg",
               "elo": 1178,
               "win_rate": 51.2,
-              "rank": 40
+              "rank": 39
             },
             {
               "arena": "models",
@@ -8698,6 +8795,12 @@
         "links": {
           "details": "/api/v1/models/google/gemma-4-26b-a4b-it-20260403/endpoints"
         },
+        "endpoints": [
+          "/api/v1/chat/completions",
+          "/api/v1/completions",
+          "/api/v1/messages",
+          "/api/v1/responses"
+        ],
         "benchmarks": {
           "design_arena": [],
           "artificial_analysis": {
@@ -8857,6 +8960,12 @@
         "links": {
           "details": "/api/v1/models/google/gemma-4-31b-it-20260402/endpoints"
         },
+        "endpoints": [
+          "/api/v1/chat/completions",
+          "/api/v1/completions",
+          "/api/v1/messages",
+          "/api/v1/responses"
+        ],
         "benchmarks": {
           "design_arena": [],
           "artificial_analysis": {
@@ -10599,6 +10708,12 @@
         "links": {
           "details": "/api/v1/models/nvidia/nemotron-3-super-120b-a12b-20230311/endpoints"
         },
+        "endpoints": [
+          "/api/v1/chat/completions",
+          "/api/v1/completions",
+          "/api/v1/messages",
+          "/api/v1/responses"
+        ],
         "benchmarks": {
           "design_arena": [],
           "artificial_analysis": {
@@ -10774,6 +10889,12 @@
         "links": {
           "details": "/api/v1/models/qwen/qwen3.5-9b-20260310/endpoints"
         },
+        "endpoints": [
+          "/api/v1/chat/completions",
+          "/api/v1/completions",
+          "/api/v1/messages",
+          "/api/v1/responses"
+        ],
         "benchmarks": {
           "design_arena": [],
           "artificial_analysis": {
@@ -11664,6 +11785,12 @@
         "links": {
           "details": "/api/v1/models/qwen/qwen3.5-35b-a3b-20260224/endpoints"
         },
+        "endpoints": [
+          "/api/v1/chat/completions",
+          "/api/v1/completions",
+          "/api/v1/messages",
+          "/api/v1/responses"
+        ],
         "benchmarks": {
           "design_arena": [],
           "artificial_analysis": {
@@ -11746,6 +11873,12 @@
         "links": {
           "details": "/api/v1/models/qwen/qwen3.5-27b-20260224/endpoints"
         },
+        "endpoints": [
+          "/api/v1/chat/completions",
+          "/api/v1/completions",
+          "/api/v1/messages",
+          "/api/v1/responses"
+        ],
         "reasoning": {
           "mandatory": false
         }
@@ -12887,6 +13020,12 @@
         "links": {
           "details": "/api/v1/models/qwen/qwen3.5-397b-a17b-20260216/endpoints"
         },
+        "endpoints": [
+          "/api/v1/chat/completions",
+          "/api/v1/completions",
+          "/api/v1/messages",
+          "/api/v1/responses"
+        ],
         "benchmarks": {
           "design_arena": [
             {
@@ -12915,7 +13054,7 @@
               "category": "gamedev",
               "elo": 1140,
               "win_rate": 50.2,
-              "rank": 80
+              "rank": 79
             },
             {
               "arena": "models",
@@ -13671,7 +13810,13 @@
         "expiration_date": null,
         "links": {
           "details": "/api/v1/models/openrouter/free/endpoints"
-        }
+        },
+        "endpoints": [
+          "/api/v1/chat/completions",
+          "/api/v1/completions",
+          "/api/v1/messages",
+          "/api/v1/responses"
+        ]
       },
       "zh_description": "The simplest way to get free inference. openrouter/free is a router that selects free models at random from the models available on OpenRouter. The router smartly filters for models that...",
       "zh_source": "openrouter-description",
@@ -14971,6 +15116,12 @@
         "links": {
           "details": "/api/v1/models/z-ai/glm-4.7-20251222/endpoints"
         },
+        "endpoints": [
+          "/api/v1/chat/completions",
+          "/api/v1/completions",
+          "/api/v1/messages",
+          "/api/v1/responses"
+        ],
         "benchmarks": {
           "design_arena": [
             {
@@ -16613,6 +16764,12 @@
         "links": {
           "details": "/api/v1/models/deepseek/deepseek-v3.2-20251201/endpoints"
         },
+        "endpoints": [
+          "/api/v1/chat/completions",
+          "/api/v1/completions",
+          "/api/v1/messages",
+          "/api/v1/responses"
+        ],
         "benchmarks": {
           "design_arena": [
             {
@@ -19194,7 +19351,13 @@
         "expiration_date": null,
         "links": {
           "details": "/api/v1/models/qwen/qwen3-vl-30b-a3b-instruct/endpoints"
-        }
+        },
+        "endpoints": [
+          "/api/v1/chat/completions",
+          "/api/v1/completions",
+          "/api/v1/messages",
+          "/api/v1/responses"
+        ]
       },
       "zh_description": "Qwen3-VL-30B-A3B-Instruct is a multimodal model that unifies strong text generation with visual understanding for images and videos. Its Instruct variant optimizes instruction-following for general multimodal tasks. It excels in perception...",
       "zh_source": "hf-readme-no-zh",
@@ -19335,12 +19498,18 @@
         "links": {
           "details": "/api/v1/models/z-ai/glm-4.6/endpoints"
         },
+        "endpoints": [
+          "/api/v1/chat/completions",
+          "/api/v1/completions",
+          "/api/v1/messages",
+          "/api/v1/responses"
+        ],
         "benchmarks": {
           "design_arena": [
             {
               "arena": "agents",
               "category": "androidnative",
-              "elo": 1082,
+              "elo": 1080,
               "win_rate": 52.6,
               "rank": 32
             },
@@ -19370,7 +19539,7 @@
               "category": "3d",
               "elo": 1126,
               "win_rate": 54.2,
-              "rank": 81
+              "rank": 80
             },
             {
               "arena": "models",
@@ -19980,7 +20149,13 @@
         "expiration_date": null,
         "links": {
           "details": "/api/v1/models/qwen/qwen3-vl-235b-a22b-instruct/endpoints"
-        }
+        },
+        "endpoints": [
+          "/api/v1/chat/completions",
+          "/api/v1/completions",
+          "/api/v1/messages",
+          "/api/v1/responses"
+        ]
       },
       "zh_description": "Qwen3-VL-235B-A22B Instruct is an open-weight multimodal model that unifies strong text generation with visual understanding across images and video. The Instruct model targets general vision-language use (VQA, document parsing, chart/table...",
       "zh_source": "hf-readme-no-zh",
@@ -20693,7 +20868,13 @@
         "expiration_date": null,
         "links": {
           "details": "/api/v1/models/qwen/qwen3-next-80b-a3b-instruct-2509/endpoints"
-        }
+        },
+        "endpoints": [
+          "/api/v1/chat/completions",
+          "/api/v1/completions",
+          "/api/v1/messages",
+          "/api/v1/responses"
+        ]
       },
       "zh_description": "Qwen3-Next-80B-A3B-Instruct is an instruction-tuned chat model in the Qwen3-Next series optimized for fast, stable responses without “thinking” traces. It targets complex tasks across reasoning, code generation, knowledge QA, and multilingual...",
       "zh_source": "hf-readme-no-zh",
@@ -21267,6 +21448,12 @@
         "links": {
           "details": "/api/v1/models/deepseek/deepseek-chat-v3.1/endpoints"
         },
+        "endpoints": [
+          "/api/v1/chat/completions",
+          "/api/v1/completions",
+          "/api/v1/messages",
+          "/api/v1/responses"
+        ],
         "benchmarks": {
           "design_arena": [
             {
@@ -22239,6 +22426,12 @@
         "links": {
           "details": "/api/v1/models/openai/gpt-oss-120b/endpoints"
         },
+        "endpoints": [
+          "/api/v1/chat/completions",
+          "/api/v1/completions",
+          "/api/v1/messages",
+          "/api/v1/responses"
+        ],
         "benchmarks": {
           "design_arena": [
             {
@@ -22466,6 +22659,12 @@
         "links": {
           "details": "/api/v1/models/openai/gpt-oss-20b/endpoints"
         },
+        "endpoints": [
+          "/api/v1/chat/completions",
+          "/api/v1/completions",
+          "/api/v1/messages",
+          "/api/v1/responses"
+        ],
         "benchmarks": {
           "design_arena": [
             {
@@ -23415,6 +23614,12 @@
         "links": {
           "details": "/api/v1/models/qwen/qwen3-coder-480b-a35b-07-25/endpoints"
         },
+        "endpoints": [
+          "/api/v1/chat/completions",
+          "/api/v1/completions",
+          "/api/v1/messages",
+          "/api/v1/responses"
+        ],
         "benchmarks": {
           "design_arena": [
             {
@@ -23658,6 +23863,12 @@
         "links": {
           "details": "/api/v1/models/qwen/qwen3-235b-a22b-07-25/endpoints"
         },
+        "endpoints": [
+          "/api/v1/chat/completions",
+          "/api/v1/completions",
+          "/api/v1/messages",
+          "/api/v1/responses"
+        ],
         "benchmarks": {
           "design_arena": [
             {
@@ -24210,6 +24421,12 @@
         "links": {
           "details": "/api/v1/models/mistralai/mistral-small-3.2-24b-instruct-2506/endpoints"
         },
+        "endpoints": [
+          "/api/v1/chat/completions",
+          "/api/v1/completions",
+          "/api/v1/messages",
+          "/api/v1/responses"
+        ],
         "benchmarks": {
           "design_arena": [
             {
@@ -24811,6 +25028,12 @@
         "links": {
           "details": "/api/v1/models/deepseek/deepseek-r1-0528/endpoints"
         },
+        "endpoints": [
+          "/api/v1/chat/completions",
+          "/api/v1/completions",
+          "/api/v1/messages",
+          "/api/v1/responses"
+        ],
         "benchmarks": {
           "design_arena": [
             {
@@ -25563,7 +25786,13 @@
         "expiration_date": null,
         "links": {
           "details": "/api/v1/models/meta-llama/llama-guard-4-12b/endpoints"
-        }
+        },
+        "endpoints": [
+          "/api/v1/chat/completions",
+          "/api/v1/completions",
+          "/api/v1/messages",
+          "/api/v1/responses"
+        ]
       },
       "zh_description": "Llama Guard 4 is a Llama 4 Scout-derived multimodal pretrained model, fine-tuned for content safety classification. Similar to previous versions, it can be used to classify content in both LLM...",
       "zh_source": "openrouter-description",
@@ -25630,6 +25859,12 @@
         "links": {
           "details": "/api/v1/models/qwen/qwen3-30b-a3b-04-28/endpoints"
         },
+        "endpoints": [
+          "/api/v1/chat/completions",
+          "/api/v1/completions",
+          "/api/v1/messages",
+          "/api/v1/responses"
+        ],
         "benchmarks": {
           "design_arena": [
             {
@@ -25813,6 +26048,12 @@
         "links": {
           "details": "/api/v1/models/qwen/qwen3-14b-04-28/endpoints"
         },
+        "endpoints": [
+          "/api/v1/chat/completions",
+          "/api/v1/completions",
+          "/api/v1/messages",
+          "/api/v1/responses"
+        ],
         "benchmarks": {
           "design_arena": [],
           "artificial_analysis": {
@@ -25886,6 +26127,12 @@
         "links": {
           "details": "/api/v1/models/qwen/qwen3-32b-04-28/endpoints"
         },
+        "endpoints": [
+          "/api/v1/chat/completions",
+          "/api/v1/completions",
+          "/api/v1/messages",
+          "/api/v1/responses"
+        ],
         "benchmarks": {
           "design_arena": [],
           "artificial_analysis": {
@@ -26802,6 +27049,12 @@
         "links": {
           "details": "/api/v1/models/meta-llama/llama-4-scout-17b-16e-instruct/endpoints"
         },
+        "endpoints": [
+          "/api/v1/chat/completions",
+          "/api/v1/completions",
+          "/api/v1/messages",
+          "/api/v1/responses"
+        ],
         "benchmarks": {
           "design_arena": [
             {
@@ -27103,6 +27356,12 @@
         "links": {
           "details": "/api/v1/models/google/gemma-3-4b-it/endpoints"
         },
+        "endpoints": [
+          "/api/v1/chat/completions",
+          "/api/v1/completions",
+          "/api/v1/messages",
+          "/api/v1/responses"
+        ],
         "benchmarks": {
           "design_arena": [],
           "artificial_analysis": {
@@ -27172,6 +27431,12 @@
         "links": {
           "details": "/api/v1/models/google/gemma-3-12b-it/endpoints"
         },
+        "endpoints": [
+          "/api/v1/chat/completions",
+          "/api/v1/completions",
+          "/api/v1/messages",
+          "/api/v1/responses"
+        ],
         "benchmarks": {
           "design_arena": [],
           "artificial_analysis": {
@@ -27488,6 +27753,12 @@
         "links": {
           "details": "/api/v1/models/google/gemma-3-27b-it/endpoints"
         },
+        "endpoints": [
+          "/api/v1/chat/completions",
+          "/api/v1/completions",
+          "/api/v1/messages",
+          "/api/v1/responses"
+        ],
         "benchmarks": {
           "design_arena": [],
           "artificial_analysis": {
@@ -28212,7 +28483,13 @@
         "expiration_date": null,
         "links": {
           "details": "/api/v1/models/mistralai/mistral-small-24b-instruct-2501/endpoints"
-        }
+        },
+        "endpoints": [
+          "/api/v1/chat/completions",
+          "/api/v1/completions",
+          "/api/v1/messages",
+          "/api/v1/responses"
+        ]
       },
       "zh_description": "Mistral Small 3 is a 24B-parameter language model optimized for low-latency performance across common AI tasks. Released under the Apache 2.0 license, it features both pre-trained and instruction-tuned versions designed...",
       "zh_source": "hf-readme-no-zh",
@@ -28525,7 +28802,13 @@
         "expiration_date": null,
         "links": {
           "details": "/api/v1/models/microsoft/phi-4/endpoints"
-        }
+        },
+        "endpoints": [
+          "/api/v1/chat/completions",
+          "/api/v1/completions",
+          "/api/v1/messages",
+          "/api/v1/responses"
+        ]
       },
       "zh_description": "[Microsoft Research](/microsoft) Phi-4 is designed to perform well in complex reasoning tasks and can operate efficiently in situations with limited memory or where quick responses are needed. At 14 billion...",
       "zh_source": "hf-readme-no-zh",
@@ -28644,6 +28927,12 @@
         "links": {
           "details": "/api/v1/models/deepseek/deepseek-chat-v3/endpoints"
         },
+        "endpoints": [
+          "/api/v1/chat/completions",
+          "/api/v1/completions",
+          "/api/v1/messages",
+          "/api/v1/responses"
+        ],
         "benchmarks": {
           "design_arena": [
             {
@@ -29010,6 +29299,12 @@
         "links": {
           "details": "/api/v1/models/meta-llama/llama-3.3-70b-instruct/endpoints"
         },
+        "endpoints": [
+          "/api/v1/chat/completions",
+          "/api/v1/completions",
+          "/api/v1/messages",
+          "/api/v1/responses"
+        ],
         "benchmarks": {
           "design_arena": [],
           "artificial_analysis": {
@@ -30065,7 +30360,13 @@
         "expiration_date": null,
         "links": {
           "details": "/api/v1/models/qwen/qwen-2.5-72b-instruct/endpoints"
-        }
+        },
+        "endpoints": [
+          "/api/v1/chat/completions",
+          "/api/v1/completions",
+          "/api/v1/messages",
+          "/api/v1/responses"
+        ]
       },
       "zh_description": "Qwen2.5 72B is the latest series of Qwen large language models. Qwen2.5 brings the following improvements upon Qwen2: - Significantly more knowledge and has greatly improved capabilities in coding and...",
       "zh_source": "hf-readme-no-zh",
@@ -30238,7 +30539,13 @@
         "expiration_date": null,
         "links": {
           "details": "/api/v1/models/sao10k/l3.1-euryale-70b/endpoints"
-        }
+        },
+        "endpoints": [
+          "/api/v1/chat/completions",
+          "/api/v1/completions",
+          "/api/v1/messages",
+          "/api/v1/responses"
+        ]
       },
       "zh_description": "Euryale L3.1 70B v2.2 is a model focused on creative roleplay from [Sao10k](https://ko-fi.com/sao10k). It is the successor of [Euryale L3 70B v2.1](/models/sao10k/l3-euryale-70b).",
       "zh_source": "hf-readme-no-zh",
@@ -30295,7 +30602,13 @@
         "expiration_date": "2026-11-02",
         "links": {
           "details": "/api/v1/models/nousresearch/hermes-3-llama-3.1-70b/endpoints"
-        }
+        },
+        "endpoints": [
+          "/api/v1/chat/completions",
+          "/api/v1/completions",
+          "/api/v1/messages",
+          "/api/v1/responses"
+        ]
       },
       "zh_description": "Hermes 3 is a generalist language model with many improvements over [Hermes 2](/models/nousresearch/nous-hermes-2-mistral-7b-dpo), including advanced agentic capabilities, much better roleplaying, reasoning, multi-turn conversation, long context coherence, and improvements across the...",
       "zh_source": "hf-readme-no-zh",
@@ -30406,7 +30719,13 @@
         "expiration_date": "2026-11-02",
         "links": {
           "details": "/api/v1/models/nousresearch/hermes-3-llama-3.1-405b/endpoints"
-        }
+        },
+        "endpoints": [
+          "/api/v1/chat/completions",
+          "/api/v1/completions",
+          "/api/v1/messages",
+          "/api/v1/responses"
+        ]
       },
       "zh_description": "Hermes 3 is a generalist language model with many improvements over Hermes 2, including advanced agentic capabilities, much better roleplaying, reasoning, multi-turn conversation, long context coherence, and improvements across the...",
       "zh_source": "hf-readme-no-zh",
@@ -30462,7 +30781,13 @@
         "expiration_date": null,
         "links": {
           "details": "/api/v1/models/sao10k/l3-lunaris-8b/endpoints"
-        }
+        },
+        "endpoints": [
+          "/api/v1/chat/completions",
+          "/api/v1/completions",
+          "/api/v1/messages",
+          "/api/v1/responses"
+        ]
       },
       "zh_description": "Lunaris 8B is a versatile generalist and roleplaying model based on Llama 3. It's a strategic merge of multiple models, designed to balance creativity with improved logic and general knowledge....",
       "zh_source": "hf-readme-no-zh",
@@ -30594,6 +30919,12 @@
         "links": {
           "details": "/api/v1/models/meta-llama/llama-3.1-8b-instruct/endpoints"
         },
+        "endpoints": [
+          "/api/v1/chat/completions",
+          "/api/v1/completions",
+          "/api/v1/messages",
+          "/api/v1/responses"
+        ],
         "benchmarks": {
           "design_arena": [],
           "artificial_analysis": {
@@ -30661,7 +30992,13 @@
         "expiration_date": "2026-11-03",
         "links": {
           "details": "/api/v1/models/meta-llama/llama-3.1-70b-instruct/endpoints"
-        }
+        },
+        "endpoints": [
+          "/api/v1/chat/completions",
+          "/api/v1/completions",
+          "/api/v1/messages",
+          "/api/v1/responses"
+        ]
       },
       "zh_description": "Meta's latest class of model (Llama 3.1) launched with a variety of sizes & flavors. This 70B instruct-tuned version is optimized for high quality dialogue usecases. It has demonstrated strong...",
       "zh_source": "openrouter-description",
@@ -30723,7 +31060,13 @@
         "expiration_date": null,
         "links": {
           "details": "/api/v1/models/mistralai/mistral-nemo/endpoints"
-        }
+        },
+        "endpoints": [
+          "/api/v1/chat/completions",
+          "/api/v1/completions",
+          "/api/v1/messages",
+          "/api/v1/responses"
+        ]
       },
       "zh_description": "A 12B parameter model with a 128k token context length built by Mistral in collaboration with NVIDIA. The model is multilingual, supporting English, French, German, Spanish, Italian, Portuguese, Chinese, Japanese,...",
       "zh_source": "hf-readme-no-zh",
@@ -31667,7 +32010,13 @@
         "expiration_date": null,
         "links": {
           "details": "/api/v1/models/openrouter/auto/endpoints"
-        }
+        },
+        "endpoints": [
+          "/api/v1/chat/completions",
+          "/api/v1/completions",
+          "/api/v1/messages",
+          "/api/v1/responses"
+        ]
       },
       "zh_description": "The Auto Router automatically selects the best model for your prompt, powered by the wisdom of the market. It routes you based on what the OpenRouter community collectively spends on...",
       "zh_source": "openrouter-description",
@@ -32311,13 +32660,19 @@
         "links": {
           "details": "/api/v1/models/moonshotai/kimi-k3-20260715/endpoints"
         },
+        "endpoints": [
+          "/api/v1/chat/completions",
+          "/api/v1/completions",
+          "/api/v1/messages",
+          "/api/v1/responses"
+        ],
         "benchmarks": {
           "design_arena": [
             {
               "arena": "agents",
               "category": "agenticgamedev",
-              "elo": 1205,
-              "win_rate": 53.9,
+              "elo": 1204,
+              "win_rate": 54,
               "rank": 4
             },
             {
@@ -32332,7 +32687,7 @@
               "category": "blender3d",
               "elo": 1176,
               "win_rate": 44.3,
-              "rank": 7
+              "rank": 8
             },
             {
               "arena": "agents",
@@ -32358,8 +32713,15 @@
             {
               "arena": "agents",
               "category": "mobileapps",
-              "elo": 1267,
-              "win_rate": 57.4,
+              "elo": 1264,
+              "win_rate": 57.2,
+              "rank": 5
+            },
+            {
+              "arena": "agents",
+              "category": "pdf",
+              "elo": 1275,
+              "win_rate": 63,
               "rank": 4
             },
             {
@@ -32379,7 +32741,7 @@
             {
               "arena": "agents",
               "category": "webapps",
-              "elo": 1287,
+              "elo": 1284,
               "win_rate": 59.2,
               "rank": 6
             },
@@ -32393,9 +32755,9 @@
             {
               "arena": "models",
               "category": "codecategories",
-              "elo": 1353,
+              "elo": 1352,
               "win_rate": 60,
-              "rank": 4
+              "rank": 5
             },
             {
               "arena": "models",
@@ -32407,15 +32769,15 @@
             {
               "arena": "models",
               "category": "gamedev",
-              "elo": 1347,
-              "win_rate": 53.7,
+              "elo": 1348,
+              "win_rate": 53.8,
               "rank": 8
             },
             {
               "arena": "models",
               "category": "svg",
-              "elo": 1304,
-              "win_rate": 59.9,
+              "elo": 1305,
+              "win_rate": 60.1,
               "rank": 6
             },
             {
@@ -32428,7 +32790,7 @@
             {
               "arena": "models",
               "category": "website",
-              "elo": 1335,
+              "elo": 1334,
               "win_rate": 58.6,
               "rank": 3
             }
@@ -32726,7 +33088,13 @@
         "expiration_date": null,
         "links": {
           "details": "/api/v1/models/openrouter/auto-beta/endpoints"
-        }
+        },
+        "endpoints": [
+          "/api/v1/chat/completions",
+          "/api/v1/completions",
+          "/api/v1/messages",
+          "/api/v1/responses"
+        ]
       },
       "zh_description": "The experimental version of our Auto Router where we test new improvements. Use it to get the latest and greatest version of our general purpose auto router, but expect beta...",
       "zh_source": "openrouter-description",
@@ -33010,6 +33378,12 @@
         "links": {
           "details": "/api/v1/models/poolside/laguna-s-2.1-20260720/endpoints"
         },
+        "endpoints": [
+          "/api/v1/chat/completions",
+          "/api/v1/completions",
+          "/api/v1/messages",
+          "/api/v1/responses"
+        ],
         "reasoning": {
           "mandatory": false,
           "default_enabled": true
@@ -33065,6 +33439,12 @@
         "links": {
           "details": "/api/v1/models/poolside/laguna-s-2.1-20260720/endpoints"
         },
+        "endpoints": [
+          "/api/v1/chat/completions",
+          "/api/v1/completions",
+          "/api/v1/messages",
+          "/api/v1/responses"
+        ],
         "reasoning": {
           "mandatory": false,
           "default_enabled": true
@@ -39126,6 +39506,12 @@
         "links": {
           "details": "/api/v1/models/deepseek/deepseek-v4-flash-20260731/endpoints"
         },
+        "endpoints": [
+          "/api/v1/chat/completions",
+          "/api/v1/completions",
+          "/api/v1/messages",
+          "/api/v1/responses"
+        ],
         "benchmarks": {
           "design_arena": [
             {
@@ -39133,7 +39519,7 @@
               "category": "3d",
               "elo": 1205,
               "win_rate": 48.7,
-              "rank": 47
+              "rank": 48
             },
             {
               "arena": "models",
@@ -39273,6 +39659,12 @@
         "links": {
           "details": "/api/v1/models/thinkingmachines/inkling-small-20260730/endpoints"
         },
+        "endpoints": [
+          "/api/v1/chat/completions",
+          "/api/v1/completions",
+          "/api/v1/messages",
+          "/api/v1/responses"
+        ],
         "benchmarks": {
           "design_arena": [],
           "artificial_analysis": {
@@ -39362,6 +39754,12 @@
         "links": {
           "details": "/api/v1/models/~deepseek/deepseek-v4-flash-latest/endpoints"
         },
+        "endpoints": [
+          "/api/v1/chat/completions",
+          "/api/v1/completions",
+          "/api/v1/messages",
+          "/api/v1/responses"
+        ],
         "reasoning": {
           "mandatory": false,
           "default_enabled": true,
@@ -40068,6 +40466,12 @@
         "links": {
           "details": "/api/v1/models/inclusionai/ling-3.0-flash-20260723/endpoints"
         },
+        "endpoints": [
+          "/api/v1/chat/completions",
+          "/api/v1/completions",
+          "/api/v1/messages",
+          "/api/v1/responses"
+        ],
         "benchmarks": {
           "design_arena": [],
           "artificial_analysis": {
@@ -42563,6 +42967,12 @@
         "links": {
           "details": "/api/v1/models/nvidia/nemotron-3.5-lightning-20260807/endpoints"
         },
+        "endpoints": [
+          "/api/v1/chat/completions",
+          "/api/v1/completions",
+          "/api/v1/messages",
+          "/api/v1/responses"
+        ],
         "benchmarks": {
           "design_arena": [],
           "artificial_analysis": {
@@ -42627,6 +43037,12 @@
         "links": {
           "details": "/api/v1/models/nvidia/nemotron-3.5-lightning-20260807/endpoints"
         },
+        "endpoints": [
+          "/api/v1/chat/completions",
+          "/api/v1/completions",
+          "/api/v1/messages",
+          "/api/v1/responses"
+        ],
         "benchmarks": {
           "design_arena": [],
           "artificial_analysis": {
@@ -42905,20 +43321,26 @@
         "links": {
           "details": "/api/v1/models/meta/muse-glimmer-30b-20260810/endpoints"
         },
+        "endpoints": [
+          "/api/v1/chat/completions",
+          "/api/v1/completions",
+          "/api/v1/messages",
+          "/api/v1/responses"
+        ],
         "benchmarks": {
           "design_arena": [
             {
               "arena": "models",
               "category": "codecategories",
-              "elo": 1148,
+              "elo": 1147,
               "win_rate": 34.2,
               "rank": 89
             },
             {
               "arena": "models",
               "category": "gamedev",
-              "elo": 1109,
-              "win_rate": 29.9,
+              "elo": 1107,
+              "win_rate": 30.2,
               "rank": 94
             },
             {
@@ -42932,7 +43354,7 @@
               "arena": "models",
               "category": "website",
               "elo": 1162,
-              "win_rate": 36.1,
+              "win_rate": 36,
               "rank": 87
             }
           ],
@@ -43247,6 +43669,12 @@
         "links": {
           "details": "/api/v1/models/deepseek/deepseek-v4-pro-20260813/endpoints"
         },
+        "endpoints": [
+          "/api/v1/chat/completions",
+          "/api/v1/completions",
+          "/api/v1/messages",
+          "/api/v1/responses"
+        ],
         "benchmarks": {
           "design_arena": [],
           "artificial_analysis": {
@@ -43945,6 +44373,12 @@
         "links": {
           "details": "/api/v1/models/qwen/qwen3.8-27b-20260814/endpoints"
         },
+        "endpoints": [
+          "/api/v1/chat/completions",
+          "/api/v1/completions",
+          "/api/v1/messages",
+          "/api/v1/responses"
+        ],
         "benchmarks": {
           "design_arena": [],
           "artificial_analysis": {
@@ -44286,13 +44720,19 @@
         "links": {
           "details": "/api/v1/models/z-ai/glm-5.3-20260816/endpoints"
         },
+        "endpoints": [
+          "/api/v1/chat/completions",
+          "/api/v1/completions",
+          "/api/v1/messages",
+          "/api/v1/responses"
+        ],
         "benchmarks": {
           "design_arena": [
             {
               "arena": "models",
               "category": "3d",
-              "elo": 1328,
-              "win_rate": 59.2,
+              "elo": 1327,
+              "win_rate": 59.1,
               "rank": 16
             },
             {
@@ -44305,8 +44745,8 @@
             {
               "arena": "models",
               "category": "codecategories",
-              "elo": 1298,
-              "win_rate": 53.6,
+              "elo": 1297,
+              "win_rate": 53.5,
               "rank": 17
             },
             {
@@ -44320,29 +44760,29 @@
               "arena": "models",
               "category": "gamedev",
               "elo": 1305,
-              "win_rate": 52,
+              "win_rate": 51.9,
               "rank": 17
             },
             {
               "arena": "models",
               "category": "svg",
-              "elo": 1279,
-              "win_rate": 55.4,
-              "rank": 14
+              "elo": 1271,
+              "win_rate": 54,
+              "rank": 15
             },
             {
               "arena": "models",
               "category": "uicomponent",
-              "elo": 1300,
-              "win_rate": 55.1,
-              "rank": 17
+              "elo": 1294,
+              "win_rate": 53.8,
+              "rank": 19
             },
             {
               "arena": "models",
               "category": "website",
-              "elo": 1291,
-              "win_rate": 53.6,
-              "rank": 19
+              "elo": 1290,
+              "win_rate": 53.5,
+              "rank": 21
             },
             {
               "arena": "agents",
@@ -44453,6 +44893,12 @@
         "links": {
           "details": "/api/v1/models/~z-ai/glm-latest/endpoints"
         },
+        "endpoints": [
+          "/api/v1/chat/completions",
+          "/api/v1/completions",
+          "/api/v1/messages",
+          "/api/v1/responses"
+        ],
         "reasoning": {
           "mandatory": true,
           "default_enabled": true,
@@ -44758,6 +45204,12 @@
         "links": {
           "details": "/api/v1/models/deepseek/deepseek-v4-flash-vision-exp-20260821/endpoints"
         },
+        "endpoints": [
+          "/api/v1/chat/completions",
+          "/api/v1/completions",
+          "/api/v1/messages",
+          "/api/v1/responses"
+        ],
         "benchmarks": {
           "design_arena": [],
           "artificial_analysis": {
@@ -45591,6 +46043,12 @@
         "links": {
           "details": "/api/v1/models/z-ai/glm-5.3-flash-20260826/endpoints"
         },
+        "endpoints": [
+          "/api/v1/chat/completions",
+          "/api/v1/completions",
+          "/api/v1/messages",
+          "/api/v1/responses"
+        ],
         "benchmarks": {
           "design_arena": [
             {
@@ -45604,8 +46062,8 @@
               "arena": "models",
               "category": "asciiart",
               "elo": 1272,
-              "win_rate": 55,
-              "rank": 12
+              "win_rate": 54.8,
+              "rank": 11
             },
             {
               "arena": "models",
@@ -45624,29 +46082,29 @@
             {
               "arena": "models",
               "category": "gamedev",
-              "elo": 1274,
-              "win_rate": 46.7,
+              "elo": 1275,
+              "win_rate": 46.8,
               "rank": 24
             },
             {
               "arena": "models",
               "category": "svg",
-              "elo": 1280,
-              "win_rate": 55.9,
+              "elo": 1281,
+              "win_rate": 55.8,
               "rank": 13
             },
             {
               "arena": "models",
               "category": "uicomponent",
               "elo": 1305,
-              "win_rate": 53.4,
+              "win_rate": 53.2,
               "rank": 16
             },
             {
               "arena": "models",
               "category": "website",
               "elo": 1270,
-              "win_rate": 48.5,
+              "win_rate": 48.4,
               "rank": 29
             }
           ],
@@ -45766,9 +46224,9 @@
           "instruct_type": null
         },
         "pricing": {
-          "prompt": "0.000000834",
-          "completion": "0.000002501",
-          "input_cache_read": "0.000000042"
+          "prompt": "0.0000007923",
+          "completion": "0.00000237595",
+          "input_cache_read": "0.0000000399"
         },
         "top_provider": {
           "context_length": 1048576,
@@ -45803,6 +46261,12 @@
         "links": {
           "details": "/api/v1/models/tencent/hy4-preview-20260827/endpoints"
         },
+        "endpoints": [
+          "/api/v1/chat/completions",
+          "/api/v1/completions",
+          "/api/v1/messages",
+          "/api/v1/responses"
+        ],
         "reasoning": {
           "mandatory": false,
           "default_enabled": true,
@@ -45882,6 +46346,7 @@
         "links": {
           "details": "/api/v1/models/z-ai/glm-5.3-flash-20260826/endpoints"
         },
+        "endpoints": [],
         "benchmarks": {
           "design_arena": [
             {
@@ -45895,8 +46360,8 @@
               "arena": "models",
               "category": "asciiart",
               "elo": 1272,
-              "win_rate": 55,
-              "rank": 12
+              "win_rate": 54.8,
+              "rank": 11
             },
             {
               "arena": "models",
@@ -45915,29 +46380,29 @@
             {
               "arena": "models",
               "category": "gamedev",
-              "elo": 1274,
-              "win_rate": 46.7,
+              "elo": 1275,
+              "win_rate": 46.8,
               "rank": 24
             },
             {
               "arena": "models",
               "category": "svg",
-              "elo": 1280,
-              "win_rate": 55.9,
+              "elo": 1281,
+              "win_rate": 55.8,
               "rank": 13
             },
             {
               "arena": "models",
               "category": "uicomponent",
               "elo": 1305,
-              "win_rate": 53.4,
+              "win_rate": 53.2,
               "rank": 16
             },
             {
               "arena": "models",
               "category": "website",
               "elo": 1270,
-              "win_rate": 48.5,
+              "win_rate": 48.4,
               "rank": 29
             }
           ],
@@ -46517,13 +46982,14 @@
         "links": {
           "details": "/api/v1/models/moonshotai/kimi-k3-20260715/endpoints"
         },
+        "endpoints": [],
         "benchmarks": {
           "design_arena": [
             {
               "arena": "agents",
               "category": "agenticgamedev",
-              "elo": 1205,
-              "win_rate": 53.9,
+              "elo": 1204,
+              "win_rate": 54,
               "rank": 4
             },
             {
@@ -46538,7 +47004,7 @@
               "category": "blender3d",
               "elo": 1176,
               "win_rate": 44.3,
-              "rank": 7
+              "rank": 8
             },
             {
               "arena": "agents",
@@ -46564,8 +47030,15 @@
             {
               "arena": "agents",
               "category": "mobileapps",
-              "elo": 1267,
-              "win_rate": 57.4,
+              "elo": 1264,
+              "win_rate": 57.2,
+              "rank": 5
+            },
+            {
+              "arena": "agents",
+              "category": "pdf",
+              "elo": 1275,
+              "win_rate": 63,
               "rank": 4
             },
             {
@@ -46585,7 +47058,7 @@
             {
               "arena": "agents",
               "category": "webapps",
-              "elo": 1287,
+              "elo": 1284,
               "win_rate": 59.2,
               "rank": 6
             },
@@ -46599,9 +47072,9 @@
             {
               "arena": "models",
               "category": "codecategories",
-              "elo": 1353,
+              "elo": 1352,
               "win_rate": 60,
-              "rank": 4
+              "rank": 5
             },
             {
               "arena": "models",
@@ -46613,15 +47086,15 @@
             {
               "arena": "models",
               "category": "gamedev",
-              "elo": 1347,
-              "win_rate": 53.7,
+              "elo": 1348,
+              "win_rate": 53.8,
               "rank": 8
             },
             {
               "arena": "models",
               "category": "svg",
-              "elo": 1304,
-              "win_rate": 59.9,
+              "elo": 1305,
+              "win_rate": 60.1,
               "rank": 6
             },
             {
@@ -46634,7 +47107,7 @@
             {
               "arena": "models",
               "category": "website",
-              "elo": 1335,
+              "elo": 1334,
               "win_rate": 58.6,
               "rank": 3
             }
@@ -47415,6 +47888,7 @@
         "links": {
           "details": "/api/v1/models/openai/gpt-oss-120b/endpoints"
         },
+        "endpoints": [],
         "benchmarks": {
           "design_arena": [
             {
@@ -47542,6 +48016,7 @@
         "links": {
           "details": "/api/v1/models/openai/gpt-oss-20b/endpoints"
         },
+        "endpoints": [],
         "benchmarks": {
           "design_arena": [
             {
@@ -47747,6 +48222,12 @@
         "links": {
           "details": "/api/v1/models/ibm-granite/granite-4.2-8b-20260831/endpoints"
         },
+        "endpoints": [
+          "/api/v1/chat/completions",
+          "/api/v1/completions",
+          "/api/v1/messages",
+          "/api/v1/responses"
+        ],
         "benchmarks": {
           "design_arena": [],
           "artificial_analysis": {
@@ -48943,6 +49424,12 @@
         "links": {
           "details": "/api/v1/models/~z-ai/glm-flash-latest/endpoints"
         },
+        "endpoints": [
+          "/api/v1/chat/completions",
+          "/api/v1/completions",
+          "/api/v1/messages",
+          "/api/v1/responses"
+        ],
         "reasoning": {
           "mandatory": true,
           "default_enabled": true,
@@ -49504,6 +49991,12 @@
         "links": {
           "details": "/api/v1/models/nvidia/nemotron-3.5-content-safety-20260604/endpoints"
         },
+        "endpoints": [
+          "/api/v1/chat/completions",
+          "/api/v1/completions",
+          "/api/v1/messages",
+          "/api/v1/responses"
+        ],
         "reasoning": {
           "mandatory": false,
           "default_enabled": true
@@ -50218,13 +50711,14 @@
         "links": {
           "details": "/api/v1/models/z-ai/glm-5.3-20260816/endpoints"
         },
+        "endpoints": [],
         "benchmarks": {
           "design_arena": [
             {
               "arena": "models",
               "category": "3d",
-              "elo": 1328,
-              "win_rate": 59.2,
+              "elo": 1327,
+              "win_rate": 59.1,
               "rank": 16
             },
             {
@@ -50237,8 +50731,8 @@
             {
               "arena": "models",
               "category": "codecategories",
-              "elo": 1298,
-              "win_rate": 53.6,
+              "elo": 1297,
+              "win_rate": 53.5,
               "rank": 17
             },
             {
@@ -50252,29 +50746,29 @@
               "arena": "models",
               "category": "gamedev",
               "elo": 1305,
-              "win_rate": 52,
+              "win_rate": 51.9,
               "rank": 17
             },
             {
               "arena": "models",
               "category": "svg",
-              "elo": 1279,
-              "win_rate": 55.4,
-              "rank": 14
+              "elo": 1271,
+              "win_rate": 54,
+              "rank": 15
             },
             {
               "arena": "models",
               "category": "uicomponent",
-              "elo": 1300,
-              "win_rate": 55.1,
-              "rank": 17
+              "elo": 1294,
+              "win_rate": 53.8,
+              "rank": 19
             },
             {
               "arena": "models",
               "category": "website",
-              "elo": 1291,
-              "win_rate": 53.6,
-              "rank": 19
+              "elo": 1290,
+              "win_rate": 53.5,
+              "rank": 21
             },
             {
               "arena": "agents",
@@ -50454,6 +50948,12 @@
         "links": {
           "details": "/api/v1/models/deepseek/deepseek-v4.1-flash-20260910/endpoints"
         },
+        "endpoints": [
+          "/api/v1/chat/completions",
+          "/api/v1/completions",
+          "/api/v1/messages",
+          "/api/v1/responses"
+        ],
         "reasoning": {
           "mandatory": false,
           "default_enabled": true,
@@ -51043,6 +51543,12 @@
         "links": {
           "details": "/api/v1/models/inclusionai/ling-3.0-flash-vl-20260910/endpoints"
         },
+        "endpoints": [
+          "/api/v1/chat/completions",
+          "/api/v1/completions",
+          "/api/v1/messages",
+          "/api/v1/responses"
+        ],
         "benchmarks": {
           "design_arena": [],
           "artificial_analysis": {
@@ -51246,6 +51752,12 @@
         "links": {
           "details": "/api/v1/models/~deepseek/deepseek-pro-latest/endpoints"
         },
+        "endpoints": [
+          "/api/v1/chat/completions",
+          "/api/v1/completions",
+          "/api/v1/messages",
+          "/api/v1/responses"
+        ],
         "reasoning": {
           "mandatory": false,
           "supported_efforts": [
@@ -51325,6 +51837,12 @@
         "links": {
           "details": "/api/v1/models/~deepseek/deepseek-flash-latest/endpoints"
         },
+        "endpoints": [
+          "/api/v1/chat/completions",
+          "/api/v1/completions",
+          "/api/v1/messages",
+          "/api/v1/responses"
+        ],
         "reasoning": {
           "mandatory": false,
           "default_enabled": true,
@@ -51956,6 +52474,12 @@
         "links": {
           "details": "/api/v1/models/xiaomi/mimo-v2.6-flash-20260921/endpoints"
         },
+        "endpoints": [
+          "/api/v1/chat/completions",
+          "/api/v1/completions",
+          "/api/v1/messages",
+          "/api/v1/responses"
+        ],
         "benchmarks": {
           "design_arena": [],
           "artificial_analysis": {
@@ -52037,12 +52561,18 @@
         "links": {
           "details": "/api/v1/models/xiaomi/mimo-v2.6-pro-20260921/endpoints"
         },
+        "endpoints": [
+          "/api/v1/chat/completions",
+          "/api/v1/completions",
+          "/api/v1/messages",
+          "/api/v1/responses"
+        ],
         "benchmarks": {
           "design_arena": [
             {
               "arena": "agents",
               "category": "webapps",
-              "elo": 1280,
+              "elo": 1278,
               "win_rate": 58.3,
               "rank": 8
             },
@@ -52057,7 +52587,7 @@
               "arena": "models",
               "category": "codecategories",
               "elo": 1316,
-              "win_rate": 52.7,
+              "win_rate": 52.8,
               "rank": 11
             },
             {
@@ -52072,27 +52602,27 @@
               "category": "gamedev",
               "elo": 1315,
               "win_rate": 53.4,
-              "rank": 14
+              "rank": 15
             },
             {
               "arena": "models",
               "category": "svg",
-              "elo": 1292,
-              "win_rate": 53.6,
-              "rank": 10
+              "elo": 1300,
+              "win_rate": 54.6,
+              "rank": 7
             },
             {
               "arena": "models",
               "category": "uicomponent",
-              "elo": 1335,
-              "win_rate": 59,
+              "elo": 1334,
+              "win_rate": 58.6,
               "rank": 11
             },
             {
               "arena": "models",
               "category": "website",
               "elo": 1307,
-              "win_rate": 50.8,
+              "win_rate": 50.9,
               "rank": 13
             }
           ],
@@ -53538,6 +54068,7 @@
         "links": {
           "details": "/api/v1/models/deepseek/deepseek-v4.1-flash-20260910/endpoints"
         },
+        "endpoints": [],
         "reasoning": {
           "mandatory": false,
           "default_enabled": true,
@@ -54306,7 +54837,13 @@
         "expiration_date": null,
         "links": {
           "details": "/api/v1/models/typesafe/jev-router/endpoints"
-        }
+        },
+        "endpoints": [
+          "/api/v1/chat/completions",
+          "/api/v1/completions",
+          "/api/v1/messages",
+          "/api/v1/responses"
+        ]
       },
       "zh_description": "Jev Router picks the best model and reasoning effort for each request, balancing quality, speed, and cost. It runs on [Jev](https://openrouter.ai/~typesafe/jev-latest), TypeSafe's first System One model, and adapts as your...",
       "zh_source": "openrouter-description",
@@ -55366,6 +55903,12 @@
         "links": {
           "details": "/api/v1/models/inclusionai/ling-3.1-flash-20261002/endpoints"
         },
+        "endpoints": [
+          "/api/v1/chat/completions",
+          "/api/v1/completions",
+          "/api/v1/messages",
+          "/api/v1/responses"
+        ],
         "reasoning": {
           "mandatory": false,
           "default_enabled": true
@@ -55413,7 +55956,13 @@
         "expiration_date": null,
         "links": {
           "details": "/api/v1/models/nvidia/switchyard/endpoints"
-        }
+        },
+        "endpoints": [
+          "/api/v1/chat/completions",
+          "/api/v1/completions",
+          "/api/v1/messages",
+          "/api/v1/responses"
+        ]
       },
       "zh_description": "Switchyard is an open-source model router that switches between multiple models to optimize the cost of requests. By default it will use OpenRouter market data to select the most popular...",
       "zh_source": "openrouter-description",
@@ -57108,26 +57657,32 @@
         "links": {
           "details": "/api/v1/models/nvidia/nemotron-3.5-super-vl-20261015/endpoints"
         },
+        "endpoints": [
+          "/api/v1/chat/completions",
+          "/api/v1/completions",
+          "/api/v1/messages",
+          "/api/v1/responses"
+        ],
         "benchmarks": {
           "design_arena": [
             {
               "arena": "models",
               "category": "3d",
-              "elo": 1115,
-              "win_rate": 28.5,
-              "rank": 86
+              "elo": 1119,
+              "win_rate": 28.9,
+              "rank": 84
             },
             {
               "arena": "models",
               "category": "codecategories",
               "elo": 1151,
-              "win_rate": 33.1,
+              "win_rate": 33.2,
               "rank": 86
             },
             {
               "arena": "models",
               "category": "gamedev",
-              "elo": 1107,
+              "elo": 1106,
               "win_rate": 29.4,
               "rank": 95
             },
@@ -57141,9 +57696,9 @@
             {
               "arena": "models",
               "category": "website",
-              "elo": 1169,
+              "elo": 1168,
               "win_rate": 35.3,
-              "rank": 82
+              "rank": 83
             }
           ],
           "artificial_analysis": {
@@ -57212,26 +57767,32 @@
         "links": {
           "details": "/api/v1/models/nvidia/nemotron-3.5-super-vl-20261015/endpoints"
         },
+        "endpoints": [
+          "/api/v1/chat/completions",
+          "/api/v1/completions",
+          "/api/v1/messages",
+          "/api/v1/responses"
+        ],
         "benchmarks": {
           "design_arena": [
             {
               "arena": "models",
               "category": "3d",
-              "elo": 1115,
-              "win_rate": 28.5,
-              "rank": 86
+              "elo": 1119,
+              "win_rate": 28.9,
+              "rank": 84
             },
             {
               "arena": "models",
               "category": "codecategories",
               "elo": 1151,
-              "win_rate": 33.1,
+              "win_rate": 33.2,
               "rank": 86
             },
             {
               "arena": "models",
               "category": "gamedev",
-              "elo": 1107,
+              "elo": 1106,
               "win_rate": 29.4,
               "rank": 95
             },
@@ -57245,9 +57806,9 @@
             {
               "arena": "models",
               "category": "website",
-              "elo": 1169,
+              "elo": 1168,
               "win_rate": 35.3,
-              "rank": 82
+              "rank": 83
             }
           ],
           "artificial_analysis": {
@@ -57497,6 +58058,12 @@
         "links": {
           "details": "/api/v1/models/deepseek/deepseek-v4.1-flash-20261017/endpoints"
         },
+        "endpoints": [
+          "/api/v1/chat/completions",
+          "/api/v1/completions",
+          "/api/v1/messages",
+          "/api/v1/responses"
+        ],
         "benchmarks": {
           "design_arena": [
             {
@@ -57509,22 +58076,22 @@
             {
               "arena": "models",
               "category": "3d",
-              "elo": 1359,
-              "win_rate": 46.5,
+              "elo": 1360,
+              "win_rate": 47,
               "rank": 10
             },
             {
               "arena": "models",
               "category": "asciiart",
-              "elo": 1232,
-              "win_rate": 51.1,
-              "rank": 20
+              "elo": 1234,
+              "win_rate": 50.3,
+              "rank": 19
             },
             {
               "arena": "models",
               "category": "codecategories",
               "elo": 1289,
-              "win_rate": 48.2,
+              "win_rate": 48.3,
               "rank": 20
             },
             {
@@ -57537,30 +58104,30 @@
             {
               "arena": "models",
               "category": "gamedev",
-              "elo": 1258,
-              "win_rate": 43,
+              "elo": 1259,
+              "win_rate": 43.2,
               "rank": 37
             },
             {
               "arena": "models",
               "category": "svg",
-              "elo": 1245,
-              "win_rate": 51.7,
+              "elo": 1248,
+              "win_rate": 52,
               "rank": 17
             },
             {
               "arena": "models",
               "category": "uicomponent",
-              "elo": 1299,
-              "win_rate": 52.5,
+              "elo": 1300,
+              "win_rate": 51.6,
               "rank": 18
             },
             {
               "arena": "models",
               "category": "website",
-              "elo": 1302,
-              "win_rate": 53.5,
-              "rank": 14
+              "elo": 1299,
+              "win_rate": 53.3,
+              "rank": 16
             }
           ]
         },
@@ -58823,5 +59390,5 @@
       "removed_at": "2026-10-29T00:32:22"
     }
   },
-  "last_check": "2026-10-30T00:31:22"
+  "last_check": "2026-10-31T00:16:59"
 }
