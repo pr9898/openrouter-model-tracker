@@ -39774,7 +39774,7 @@
       },
       "zh_description": "This model always redirects to the latest model in the DeepSeek V4 Flash family.",
       "zh_source": "openrouter-description",
-      "zh_fetched_at": "2026-10-01T00:17:48"
+      "zh_fetched_at": "2026-10-31T03:38:50"
     },
     "qwen/qwen3.8-max": {
       "first_seen": "2026-08-03T22:00:46",
@@ -46224,9 +46224,9 @@
           "instruct_type": null
         },
         "pricing": {
-          "prompt": "0.0000007923",
-          "completion": "0.00000237595",
-          "input_cache_read": "0.0000000399"
+          "prompt": "0.000000834",
+          "completion": "0.000002501",
+          "input_cache_read": "0.000000042"
         },
         "top_provider": {
           "context_length": 1048576,
@@ -48249,7 +48249,7 @@
       },
       "zh_description": "Granite 4.2 8B is a dense reasoning model from IBM. It is suited for mathematics, code generation, multilingual dialogue, and agentic workflows that need multi-step reasoning. It supports full, low-effort,...",
       "zh_source": "hf-readme-no-zh",
-      "zh_fetched_at": "2026-10-01T00:17:48"
+      "zh_fetched_at": "2026-10-31T03:38:50"
     },
     "anthropic/claude-fable-5.1": {
       "first_seen": "2026-09-01T22:55:10",
@@ -59390,5 +59390,5 @@
       "removed_at": "2026-10-29T00:32:22"
     }
   },
-  "last_check": "2026-10-31T00:16:59"
+  "last_check": "2026-10-31T03:38:50"
 }
