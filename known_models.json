@@ -56066,7 +56066,8 @@
       },
       "zh_description": "Ling 3.1 Flash is a hybrid reasoning mixture-of-experts model from inclusionAI, with 25B active parameters out of 560B total.",
       "zh_source": "hf-readme-no-zh",
-      "zh_fetched_at": "2026-11-02T00:05:20"
+      "zh_fetched_at": "2026-11-02T00:05:20",
+      "removed_at": "2026-11-07T04:03:57"
     },
     "nvidia/switchyard": {
       "first_seen": "2026-10-03T00:05:17",
@@ -59777,5 +59778,5 @@
       "zh_fetched_at": "2026-11-07T00:32:06"
     }
   },
-  "last_check": "2026-11-07T00:32:06"
+  "last_check": "2026-11-07T04:03:57"
 }
